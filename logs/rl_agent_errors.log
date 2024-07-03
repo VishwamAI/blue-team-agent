@@ -1,0 +1,32 @@
+2024-07-03 14:47:34,601 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2024-07-03 14:47:34,602 INFO:  * Running on http://10.240.222.40:5000/ (Press CTRL+C to quit)
+2024-07-03 14:53:58,877 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2024-07-03 14:53:58,877 INFO:  * Running on http://10.240.222.40:5000/ (Press CTRL+C to quit)
+2024-07-03 14:58:35,599 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2024-07-03 14:58:35,600 INFO:  * Running on http://10.240.222.40:5000/ (Press CTRL+C to quit)
+2024-07-03 14:59:28,462 INFO: 127.0.0.1 - - [03/Jul/2024 14:59:28] "POST /logs HTTP/1.1" 200 -
+2024-07-03 15:00:40,402 INFO: 127.0.0.1 - - [03/Jul/2024 15:00:40] "POST /logs HTTP/1.1" 200 -
+2024-07-03 15:04:43,441 INFO: 127.0.0.1 - - [03/Jul/2024 15:04:43] "POST /logs HTTP/1.1" 200 -
+2024-07-03 15:07:17,405 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2024-07-03 15:07:17,406 INFO:  * Running on http://10.240.222.40:5000/ (Press CTRL+C to quit)
+2024-07-03 15:08:00,125 INFO: 127.0.0.1 - - [03/Jul/2024 15:08:00] "POST /logs HTTP/1.1" 200 -
+2024-07-03 15:10:35,418 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2024-07-03 15:10:35,419 INFO:  * Running on http://10.240.222.40:5000/ (Press CTRL+C to quit)
+2024-07-03 15:12:02,511 WARNING:  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2024-07-03 15:12:02,512 INFO:  * Running on http://10.240.222.40:5000/ (Press CTRL+C to quit)
+2024-07-03 15:12:34,851 INFO: Received log data: {'log': 'Simulated security event log data'}
+2024-07-03 15:12:34,852 INFO: Converted state: [[0 0 0 0 0 0 0 0]]
+2024-07-03 15:12:34,853 INFO: Chosen action: 1
+2024-07-03 15:12:34,865 INFO: Executed action: 1
+2024-07-03 15:12:34,866 INFO: 127.0.0.1 - - [03/Jul/2024 15:12:34] "POST /logs HTTP/1.1" 200 -
+2024-07-03 15:13:14,190 INFO: Received log data: {'log': 'Simulated intrusion attempt detected'}
+2024-07-03 15:13:14,191 INFO: Converted state: [[0 0 0 0 0 0 0 0]]
+2024-07-03 15:13:14,192 INFO: Chosen action: 0
+2024-07-03 15:13:14,202 INFO: Executed action: 0
+2024-07-03 15:13:14,204 INFO: 127.0.0.1 - - [03/Jul/2024 15:13:14] "POST /logs HTTP/1.1" 200 -
