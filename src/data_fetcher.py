@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 class DataFetcher:
     def __init__(self, source_url, output_file):
@@ -11,17 +12,25 @@ class DataFetcher:
             'Accept': 'application/json'
         }
         print("Fetching data from:", self.source_url)
-        try:
-            response = requests.get(self.source_url, headers=headers, timeout=10)
-            response.raise_for_status()
-            if response.status_code == 200:
-                print("Data fetched successfully.")
-                return response.json()
-            else:
-                print("Failed to fetch data. Status code:", response.status_code)
-        except requests.exceptions.RequestException as e:
-            print("An error occurred while fetching data:", e)
-            return None
+        retries = 3
+        for attempt in range(retries):
+            try:
+                response = requests.get(self.source_url, headers=headers, timeout=10)
+                response.raise_for_status()
+                if response.status_code == 200:
+                    print("Data fetched successfully.")
+                    return response.json()
+                else:
+                    print("Failed to fetch data. Status code:", response.status_code)
+            except requests.exceptions.RequestException as e:
+                print(f"An error occurred while fetching data (attempt {attempt + 1}/{retries}):", e)
+                if attempt < retries - 1:
+                    wait_time = 2 ** attempt
+                    print(f"Retrying in {wait_time} seconds...")
+                    time.sleep(wait_time)
+                else:
+                    print("Max retries reached. Unable to fetch data.")
+                    return None
 
     def preprocess_data(self, data):
         # Implement preprocessing logic here
