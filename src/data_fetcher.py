@@ -7,7 +7,10 @@ class DataFetcher:
         self.output_file = output_file
 
     def fetch_data(self):
-        response = requests.get(self.source_url)
+        headers = {
+            'Accept': 'application/json'
+        }
+        response = requests.get(self.source_url, headers=headers)
         if response.status_code == 200:
             return response.json()
         else:
@@ -29,7 +32,7 @@ class DataFetcher:
         self.save_preprocessed_data(preprocessed_data)
 
 if __name__ == "__main__":
-    source_url = "https://example.com/api/data"  # Replace with actual data source URL
+    source_url = "https://cve.circl.lu/api/cve"  # CIRCL CVE Search API endpoint
     output_file = "preprocessed_data.json"
     data_fetcher = DataFetcher(source_url, output_file)
     data_fetcher.run()
