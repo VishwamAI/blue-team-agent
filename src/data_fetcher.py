@@ -12,7 +12,7 @@ class DataFetcher:
             'Accept': 'application/json'
         }
         print("Fetching data from:", self.source_url)
-        retries = 3
+        retries = 5
         for attempt in range(retries):
             try:
                 response = requests.get(self.source_url, headers=headers, timeout=10)
@@ -24,8 +24,11 @@ class DataFetcher:
                     print("Failed to fetch data. Status code:", response.status_code)
             except requests.exceptions.RequestException as e:
                 print(f"An error occurred while fetching data (attempt {attempt + 1}/{retries}):", e)
-                if attempt < retries - 1:
+                if response.status_code == 503:
+                    wait_time = 5 * (attempt + 1)
+                else:
                     wait_time = 2 ** attempt
+                if attempt < retries - 1:
                     print(f"Retrying in {wait_time} seconds...")
                     time.sleep(wait_time)
                 else:
