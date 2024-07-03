@@ -1,0 +1,5 @@
+gym
+numpy
+tensorflow
+flask
+requests
