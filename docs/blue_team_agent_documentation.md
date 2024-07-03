@@ -80,6 +80,82 @@ The main training loop involves the following steps:
    python3 rl_agent_model.py
    ```
 
+## Training the Model with Data from the Internet
+### Data Sources
+To enhance the blue team agent's intelligence, you can train the model with data from various internet sources. Some potential data sources include:
+- **OpenPhish**: Provides phishing URLs and related data.
+- **Kaggle Datasets**: Offers a wide range of cybersecurity-related datasets.
+- **CISA Feeds**: Provides threat intelligence feeds from the Cybersecurity and Infrastructure Security Agency.
+- **VirusTotal**: Offers data on malware and other security threats.
+- **MITRE ATT&CK**: Provides a comprehensive knowledge base of adversary tactics and techniques.
+
+### Fetching Data
+Use the `requests` library to fetch data from the selected sources. Ensure you have the necessary permissions and API keys to access the data.
+
+Example code to fetch data:
+```python
+import requests
+
+url = "https://api.example.com/data"
+headers = {"Authorization": "Bearer YOUR_API_KEY"}
+response = requests.get(url, headers=headers)
+
+if response.status_code == 200:
+    data = response.json()
+else:
+    print("Failed to fetch data:", response.status_code)
+```
+
+### Preprocessing Data
+Preprocess the fetched data to convert it into a format suitable for training the model. This may involve cleaning the data, extracting relevant features, and normalizing values.
+
+Example code to preprocess data:
+```python
+def preprocess_data(data):
+    # Implement data preprocessing steps here
+    processed_data = []
+    for item in data:
+        # Extract relevant features and normalize values
+        processed_item = {
+            "feature1": item["raw_feature1"] / 100,
+            "feature2": item["raw_feature2"] / 50,
+            # Add more feature extraction and normalization steps as needed
+        }
+        processed_data.append(processed_item)
+    return processed_data
+```
+
+### Training the Model
+Update the `convert_log_to_state` function to handle the new data format and train the model using the preprocessed data. Optimize hyperparameters and implement continuous learning to improve the model's performance over time.
+
+Example code to train the model:
+```python
+def train_model(data):
+    # Implement model training steps here
+    for episode in range(num_episodes):
+        state = convert_log_to_state(data[episode])
+        action = model.predict(state)
+        reward, next_state = execute_action(action)
+        model.update(state, action, reward, next_state)
+```
+
+### Continuous Learning
+Enable continuous learning by periodically fetching new data and retraining the model. This ensures the agent stays up-to-date with the latest threats and adapts to new security scenarios.
+
+Example code for continuous learning:
+```python
+import time
+
+while True:
+    new_data = fetch_data()
+    preprocessed_data = preprocess_data(new_data)
+    train_model(preprocessed_data)
+    time.sleep(3600)  # Wait for an hour before fetching new data
+```
+
+### Logging and Monitoring
+Enhance logging to provide better visibility into the training process and the agent's performance. Monitor the agent's actions and decisions to ensure it is learning and improving as expected.
+
 ### Simulated Events and Actions
 - The agent can handle various types of simulated security events, such as:
   - Simulated security event log data
