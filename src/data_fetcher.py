@@ -55,7 +55,7 @@ class DataFetcher:
         print("Data fetcher run complete.")
 
 if __name__ == "__main__":
-    source_url = "https://cve.circl.lu/api/last/10"  # CIRCL CVE Search API endpoint for the latest 10 CVEs
+    source_url = "https://services.nvd.nist.gov/rest/json/cves/2.0?resultsPerPage=10"  # NVD API endpoint for the latest 10 CVEs
     output_file = "preprocessed_data.json"
     data_fetcher = DataFetcher(source_url, output_file)
     data_fetcher.run()
