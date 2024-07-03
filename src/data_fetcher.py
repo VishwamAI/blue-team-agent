@@ -11,13 +11,17 @@ class DataFetcher:
             'Accept': 'application/json'
         }
         print("Fetching data from:", self.source_url)
-        response = requests.get(self.source_url, headers=headers)
-        if response.status_code == 200:
-            print("Data fetched successfully.")
-            return response.json()
-        else:
-            print("Failed to fetch data. Status code:", response.status_code)
+        try:
+            response = requests.get(self.source_url, headers=headers, timeout=10)
             response.raise_for_status()
+            if response.status_code == 200:
+                print("Data fetched successfully.")
+                return response.json()
+            else:
+                print("Failed to fetch data. Status code:", response.status_code)
+        except requests.exceptions.RequestException as e:
+            print("An error occurred while fetching data:", e)
+            return None
 
     def preprocess_data(self, data):
         # Implement preprocessing logic here
@@ -36,8 +40,9 @@ class DataFetcher:
     def run(self):
         print("Starting data fetcher...")
         data = self.fetch_data()
-        preprocessed_data = self.preprocess_data(data)
-        self.save_preprocessed_data(preprocessed_data)
+        if data:
+            preprocessed_data = self.preprocess_data(data)
+            self.save_preprocessed_data(preprocessed_data)
         print("Data fetcher run complete.")
 
 if __name__ == "__main__":
