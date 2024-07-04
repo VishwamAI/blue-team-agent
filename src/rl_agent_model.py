@@ -31,7 +31,12 @@ relevant_features = [
     'Bwd Pkts/b Avg', 'Bwd Blk Rate Avg', 'Subflow Fwd Pkts', 'Subflow Fwd Byts',
     'Subflow Bwd Pkts', 'Subflow Bwd Byts', 'Init Fwd Win Byts', 'Init Bwd Win Byts',
     'Fwd Act Data Pkts', 'Fwd Seg Size Min', 'Active Mean', 'Active Std',
-    'Active Max', 'Active Min', 'Idle Mean', 'Idle Std', 'Idle Max', 'Idle Min'
+    'Active Max', 'Active Min', 'Idle Mean', 'Idle Std', 'Idle Max', 'Idle Min',
+    'Flow IAT Mean', 'Flow IAT Std', 'Flow IAT Max', 'Flow IAT Min',
+    'Fwd IAT Mean', 'Fwd IAT Std', 'Fwd IAT Max', 'Fwd IAT Min',
+    'Bwd IAT Mean', 'Bwd IAT Std', 'Bwd IAT Max', 'Bwd IAT Min',
+    'Fwd PSH Flags', 'Bwd PSH Flags', 'Fwd URG Flags', 'Bwd URG Flags',
+    'Fwd Header Length', 'Bwd Header Length'
 ]
 
 # Set random seeds for reproducibility
@@ -90,18 +95,9 @@ def run_training_loop():
     num_episodes = 1000
     save_interval = 100  # Save the model every 100 episodes
 
-    # Load preprocessed data from otx_data.json
-    with open('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/otx_data.json', 'r') as f:
-        data = json.load(f)
-
-    features = []
-    labels = []
-    for pulse in data:
-        feature_vector = [pulse.get(feature, 0) for feature in relevant_features]
-        features.append(feature_vector)
-        labels.append(pulse.get('label', 0))  # Assuming 'label' is a key in the OTX data
-    features = np.array(features)
-    labels = np.array(labels)
+    # Load preprocessed data from .npy files
+    features = np.load('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/preprocessed_otx_data.npy')
+    labels = np.load('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/preprocessed_otx_data_labels.npy')
 
     for episode in range(num_episodes):
         for i in range(len(features)):
