@@ -33,6 +33,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Change to src directory
+      run: cd src
+
     - name: Run tests
       run: |
         pytest
