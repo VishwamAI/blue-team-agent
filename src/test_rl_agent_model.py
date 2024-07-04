@@ -43,7 +43,9 @@ test_cases = [
         'Fwd Act Data Pkts': 20, 'Fwd Seg Size Min': 40, 'Active Mean': 200, 'Active Std': 20,
         'Active Max': 400, 'Active Min': 100, 'Idle Mean': 2000, 'Idle Std': 200, 'Idle Max': 4000, 'Idle Min': 1000,
         'Flow IAT Mean': 200, 'Flow IAT Std': 20, 'Flow IAT Max': 400, 'Flow IAT Min': 100,
-        'Fwd IAT Mean': 200, 'Fwd IAT Std': 20, 'Fwd IAT Max': 400, 'Fwd IAT Min': 100
+        'Fwd IAT Mean': 200, 'Fwd IAT Std': 20, 'Fwd IAT Max': 400, 'Fwd IAT Min': 100,
+        'message': 'This is another test log message containing http://another-malicious-url.com and another-malicious-domain.com',
+        'ip_address': '192.168.1.2', 'rate_limit': 200, 'system_id': 'system_2', 'settings': {}, 'query': 'another_search_query'
     },
     {
         'Flow Duration': 500, 'Tot Fwd Pkts': 5, 'Tot Bwd Pkts': 2,
@@ -63,7 +65,9 @@ test_cases = [
         'Fwd Act Data Pkts': 5, 'Fwd Seg Size Min': 10, 'Active Mean': 50, 'Active Std': 5,
         'Active Max': 100, 'Active Min': 25, 'Idle Mean': 500, 'Idle Std': 50, 'Idle Max': 1000, 'Idle Min': 250,
         'Flow IAT Mean': 50, 'Flow IAT Std': 5, 'Flow IAT Max': 100, 'Flow IAT Min': 25,
-        'Fwd IAT Mean': 50, 'Fwd IAT Std': 5, 'Fwd IAT Max': 100, 'Fwd IAT Min': 25
+        'Fwd IAT Mean': 50, 'Fwd IAT Std': 5, 'Fwd IAT Max': 100, 'Fwd IAT Min': 25,
+        'message': 'This is yet another test log message containing http://yet-another-malicious-url.com and yet-another-malicious-domain.com',
+        'ip_address': '192.168.1.3', 'rate_limit': 50, 'system_id': 'system_3', 'settings': {}, 'query': 'yet_another_search_query'
     }
 ]
 
