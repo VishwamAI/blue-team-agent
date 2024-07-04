@@ -155,6 +155,8 @@ def convert_log_to_state(log_data):
     # Load IOCs from JSON file
     script_dir = os.path.dirname(__file__)
     iocs_path = os.path.join(script_dir, 'iocs.json')
+    if not os.path.exists(iocs_path):
+        iocs_path = 'src/iocs.json'  # Adjust path for CI/CD environment
     with open(iocs_path, 'r') as f:
         iocs = json.load(f)
 
