@@ -42,7 +42,7 @@ The Blue Team Agent is designed to automate various security tasks, including th
 - **Automation Orchestration**: XSOAR is used to orchestrate automation workflows and integrate various tools.
 
 ## Model Components
-- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. Additionally, it includes binary features for the presence of IOCs (URLs, FQDNs, and IPv4 addresses). These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 63.
+- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. Additionally, it includes binary features for the presence of IOCs (URLs, FQDNs, and IPv4 addresses). These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 57.
 - **Action Space**: The action space reflects possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports. The `execute_action` function now accepts dynamic parameters, including `ip_address`, `rate_limit`, `system_id`, `message`, `settings`, and `query`, which are derived from the log data.
 - **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
 
@@ -82,7 +82,7 @@ The main training loop involves the following steps:
 - The agent can handle various types of simulated security events, such as:
   - Simulated security event log data
   - Simulated intrusion attempt detected
-- For each event, the agent processes the log data, converts it into a state, chooses an appropriate action, and executes it. The state representation now includes 63 input features, including binary features for the presence of IOCs (URLs, FQDNs, and IPv4 addresses).
+- For each event, the agent processes the log data, converts it into a state, chooses an appropriate action, and executes it. The state representation now includes 57 input features, including binary features for the presence of IOCs (URLs, FQDNs, and IPv4 addresses).
 - The actions the agent can take include:
   - Blocking or allowing an IP address (parameter: `ip_address`)
   - Applying rate limiting (parameter: `rate_limit`)
