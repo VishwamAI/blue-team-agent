@@ -7,6 +7,9 @@ import logging
 import threading
 import json
 
+# Initialize the iocs_appended flag
+iocs_appended = False
+
 # Configure logging
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
@@ -151,6 +154,9 @@ def receive_logs():
 
 def convert_log_to_state(log_data):
     import os
+    global iocs_appended
+    # Reset the iocs_appended flag to False at the beginning of the function
+    iocs_appended = False
     # Load IOCs from JSON file
     script_dir = os.path.dirname(__file__)
     iocs_path = os.path.join(script_dir, 'iocs.json')
@@ -173,17 +179,23 @@ def convert_log_to_state(log_data):
     ipv4_ioc = 1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0
 
     # Ensure binary IOC features are only appended once
-    if len(state) == len(relevant_features):
+    print(f"State array before appending IOCs: {state}")
+    if len(state) == len(relevant_features) - 3 and not iocs_appended:
         state.extend([url_ioc, fqdn_ioc, ipv4_ioc])
+        iocs_appended = True
     print(f"State array after appending IOCs: {state}")
     print(f"Length after appending IOCs: {len(state)}")
 
     # Ensure the state array has the correct length
-    expected_length = len(relevant_features) + 3  # Update to match the number of metrics plus IOCs
+    expected_length = 51  # Update to match the number of metrics plus IOCs
     if len(state) != expected_length:
         print(f"State array: {state}")
         raise ValueError(f"State array length is {len(state)}, expected {expected_length}")
 
+    # Adjust the state array length if necessary
+    print(f"State array before truncating: {state}")
+    state = state[:expected_length]
+    print(f"State array after truncating: {state}")
     state = np.array(state)
     state = np.reshape(state, [1, expected_length])  # Update to match the number of metrics plus IOCs
     print(f"Final state array: {state}")

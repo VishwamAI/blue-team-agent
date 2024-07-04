@@ -55,6 +55,8 @@ test_cases = [
 ]
 
 def test_case_1():
+    global iocs_appended
+    iocs_appended = False
     log_data = test_cases[0]
     state = convert_log_to_state(log_data)
     print(f"State array for test_case_1: {state}")
@@ -72,6 +74,8 @@ def test_case_1():
     )
 
 def test_case_2():
+    global iocs_appended
+    iocs_appended = False
     log_data = test_cases[1]
     state = convert_log_to_state(log_data)
     print(f"State array for test_case_2: {state}")
@@ -89,6 +93,8 @@ def test_case_2():
     )
 
 def test_case_3():
+    global iocs_appended
+    iocs_appended = False
     log_data = test_cases[2]
     state = convert_log_to_state(log_data)
     print(f"State array for test_case_3: {state}")
