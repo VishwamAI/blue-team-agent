@@ -49,9 +49,9 @@ The Blue Team Agent is designed to automate various security tasks, including th
 
 ## Reinforcement Learning Model
 ### Model Components
-- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. These metrics provide a comprehensive view of the system's current status and potential security threats.
+- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 60.
 - **Action Space**: The action space reflects possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports. The `execute_action` function now accepts dynamic parameters, including `ip_address`, `rate_limit`, `system_id`, `message`, `settings`, and `query`, which are derived from the log data.
-- **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is trained using reinforcement learning techniques to improve its decision-making over time.
+- **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
 
 ### Training Loop
 The main training loop involves the following steps:
@@ -72,7 +72,7 @@ The training parameters include:
 - **Batch Size**: 32
 - **Memory**: Experience replay memory
 
-The neural network model is defined with an input layer, two hidden layers with 24 neurons each, and an output layer with the number of actions. The optimizer and loss function are defined, and the model is compiled.
+The neural network model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
 
 Results from the training process indicate that the agent's performance improves over time, with the total reward increasing and the exploration rate decreasing as the agent learns to make better decisions based on the feedback received.
 
@@ -84,7 +84,7 @@ Results from the training process indicate that the agent's performance improves
 ### Setup
 1. Install the required Python libraries:
    ```bash
-   pip install Flask gym tensorflow requests numpy
+   pip install -r requirements.txt
    ```
 2. Preprocess the OTX data:
    ```bash
