@@ -11,7 +11,7 @@ import json
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Define the state representation and action space for cybersecurity data
-num_inputs = 57  # Number of cybersecurity metrics plus IOCs
+num_inputs = 51  # Number of cybersecurity metrics plus IOCs
 num_actions = 10  # Number of possible actions
 
 # List of relevant features for state representation
@@ -179,7 +179,6 @@ def convert_log_to_state(log_data):
         raise ValueError(f"State array length is {len(state)}, expected {num_inputs}")
 
     state = np.array(state)
-    print(f"State array length before reshape: {len(state)}")  # Diagnostic print statement
     state = np.reshape(state, [1, num_inputs])  # Update to match the number of metrics plus IOCs
     return state
 
