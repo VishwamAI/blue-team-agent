@@ -11,7 +11,7 @@ import json
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Define the state representation and action space for cybersecurity data
-num_inputs = 51  # Number of cybersecurity metrics plus IOCs
+num_inputs = 51  # Number of relevant features plus IOCs
 num_actions = 10  # Number of possible actions
 
 # List of relevant features for state representation
@@ -175,11 +175,12 @@ def convert_log_to_state(log_data):
     state.append(1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0)
 
     # Ensure the state array has the correct length
-    if len(state) != num_inputs:
-        raise ValueError(f"State array length is {len(state)}, expected {num_inputs}")
+    expected_length = len(relevant_features) + 3  # 48 relevant features + 3 binary features for IOCs
+    if len(state) != expected_length:
+        raise ValueError(f"State array length is {len(state)}, expected {expected_length}")
 
     state = np.array(state)
-    state = np.reshape(state, [1, num_inputs])  # Update to match the number of metrics plus IOCs
+    state = np.reshape(state, [1, expected_length])  # Update to match the number of metrics plus IOCs
     return state
 
 def execute_action(action, ip_address=None, rate_limit=None, system_id=None, message=None, settings=None, query=None):

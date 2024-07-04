@@ -65,19 +65,12 @@ test_cases = [
     }
 ]
 
-# Run tests for each test case
-for i, log_data in enumerate(test_cases):
-    print(f"Running test case {i+1}")
-
-    # Convert log data to state representation
+def test_case_1():
+    log_data = test_cases[0]
     state = convert_log_to_state(log_data)
-    print(f"Converted state: {state}")
-
-    # Choose an action based on the current state
+    assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
-    print(f"Chosen action: {action}")
-
-    # Execute the chosen action with dynamic parameters
+    assert 0 <= action < 10, f"Chosen action {action} is out of range"
     execute_action(
         action,
         ip_address=log_data.get('ip_address', '0.0.0.0'),
@@ -88,4 +81,34 @@ for i, log_data in enumerate(test_cases):
         query=log_data.get('query', '')
     )
 
-print("All tests completed successfully.")
+def test_case_2():
+    log_data = test_cases[1]
+    state = convert_log_to_state(log_data)
+    assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
+    action = choose_action(state)
+    assert 0 <= action < 10, f"Chosen action {action} is out of range"
+    execute_action(
+        action,
+        ip_address=log_data.get('ip_address', '0.0.0.0'),
+        rate_limit=log_data.get('rate_limit', 0),
+        system_id=log_data.get('system_id', 'unknown'),
+        message=log_data.get('message', ''),
+        settings=log_data.get('settings', {}),
+        query=log_data.get('query', '')
+    )
+
+def test_case_3():
+    log_data = test_cases[2]
+    state = convert_log_to_state(log_data)
+    assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
+    action = choose_action(state)
+    assert 0 <= action < 10, f"Chosen action {action} is out of range"
+    execute_action(
+        action,
+        ip_address=log_data.get('ip_address', '0.0.0.0'),
+        rate_limit=log_data.get('rate_limit', 0),
+        system_id=log_data.get('system_id', 'unknown'),
+        message=log_data.get('message', ''),
+        settings=log_data.get('settings', {}),
+        query=log_data.get('query', '')
+    )
