@@ -173,7 +173,7 @@ def convert_log_to_state(log_data):
     ipv4_ioc = 1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0
 
     # Ensure binary IOC features are only appended once
-    if len(state) == len(relevant_features):
+    if len(state) == len(relevant_features) and len(state) == 48:
         state.extend([url_ioc, fqdn_ioc, ipv4_ioc])
     print(f"State array after appending IOCs: {state}")
     print(f"Length after appending IOCs: {len(state)}")
