@@ -11,7 +11,7 @@ import json
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Define the state representation and action space for cybersecurity data
-num_inputs = 76  # Number of cybersecurity metrics
+num_inputs = 60  # Number of cybersecurity metrics
 num_actions = 10  # Number of possible actions
 
 # List of relevant features for state representation
