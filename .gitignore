@@ -1,0 +1,8 @@
+# Ignore log files
+failed_run_logs.txt
+
+# Ignore Python cache files
+__pycache__/
+
+# Ignore large data files
+src/otx_data.json
