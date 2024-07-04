@@ -166,7 +166,7 @@ def convert_log_to_state(log_data):
 
     state = np.array(state)
     print(f"State before reshaping: {state}, Length: {len(state)}")
-    state = np.reshape(state, [1, 76])  # Update to match the number of metrics
+    state = np.reshape(state, [1, num_inputs])  # Update to match the number of metrics
     return state
 
 def execute_action(action, ip_address=None, rate_limit=None, system_id=None, message=None, settings=None, query=None):
