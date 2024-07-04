@@ -151,8 +151,11 @@ def receive_logs():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 def convert_log_to_state(log_data):
+    import os
     # Load IOCs from JSON file
-    with open('src/iocs.json', 'r') as f:
+    script_dir = os.path.dirname(__file__)
+    iocs_path = os.path.join(script_dir, 'iocs.json')
+    with open(iocs_path, 'r') as f:
         iocs = json.load(f)
 
     # Create state representation
