@@ -19,7 +19,9 @@ test_cases = [
         'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0, 'Subflow Fwd Pkts': 10, 'Subflow Fwd Byts': 500,
         'Subflow Bwd Pkts': 5, 'Subflow Bwd Byts': 250, 'Init Fwd Win Byts': 8192, 'Init Bwd Win Byts': 4096,
         'Fwd Act Data Pkts': 10, 'Fwd Seg Size Min': 20, 'Active Mean': 100, 'Active Std': 10,
-        'Active Max': 200, 'Active Min': 50, 'Idle Mean': 1000, 'Idle Std': 100, 'Idle Max': 2000, 'Idle Min': 500
+        'Active Max': 200, 'Active Min': 50, 'Idle Mean': 1000, 'Idle Std': 100, 'Idle Max': 2000, 'Idle Min': 500,
+        'Flow IAT Mean': 100, 'Flow IAT Std': 10, 'Flow IAT Max': 200, 'Flow IAT Min': 50,
+        'Fwd IAT Mean': 100, 'Fwd IAT Std': 10, 'Fwd IAT Max': 200, 'Fwd IAT Min': 50
     },
     {
         'Flow Duration': 2000, 'Tot Fwd Pkts': 20, 'Tot Bwd Pkts': 10,
@@ -37,7 +39,9 @@ test_cases = [
         'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0, 'Subflow Fwd Pkts': 20, 'Subflow Fwd Byts': 1000,
         'Subflow Bwd Pkts': 10, 'Subflow Bwd Byts': 500, 'Init Fwd Win Byts': 16384, 'Init Bwd Win Byts': 8192,
         'Fwd Act Data Pkts': 20, 'Fwd Seg Size Min': 40, 'Active Mean': 200, 'Active Std': 20,
-        'Active Max': 400, 'Active Min': 100, 'Idle Mean': 2000, 'Idle Std': 200, 'Idle Max': 4000, 'Idle Min': 1000
+        'Active Max': 400, 'Active Min': 100, 'Idle Mean': 2000, 'Idle Std': 200, 'Idle Max': 4000, 'Idle Min': 1000,
+        'Flow IAT Mean': 200, 'Flow IAT Std': 20, 'Flow IAT Max': 400, 'Flow IAT Min': 100,
+        'Fwd IAT Mean': 200, 'Fwd IAT Std': 20, 'Fwd IAT Max': 400, 'Fwd IAT Min': 100
     },
     {
         'Flow Duration': 500, 'Tot Fwd Pkts': 5, 'Tot Bwd Pkts': 2,
@@ -55,7 +59,9 @@ test_cases = [
         'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0, 'Subflow Fwd Pkts': 5, 'Subflow Fwd Byts': 250,
         'Subflow Bwd Pkts': 2, 'Subflow Bwd Byts': 100, 'Init Fwd Win Byts': 4096, 'Init Bwd Win Byts': 2048,
         'Fwd Act Data Pkts': 5, 'Fwd Seg Size Min': 10, 'Active Mean': 50, 'Active Std': 5,
-        'Active Max': 100, 'Active Min': 25, 'Idle Mean': 500, 'Idle Std': 50, 'Idle Max': 1000, 'Idle Min': 250
+        'Active Max': 100, 'Active Min': 25, 'Idle Mean': 500, 'Idle Std': 50, 'Idle Max': 1000, 'Idle Min': 250,
+        'Flow IAT Mean': 50, 'Flow IAT Std': 5, 'Flow IAT Max': 100, 'Flow IAT Min': 25,
+        'Fwd IAT Mean': 50, 'Fwd IAT Std': 5, 'Fwd IAT Max': 100, 'Fwd IAT Min': 25
     }
 ]
 
