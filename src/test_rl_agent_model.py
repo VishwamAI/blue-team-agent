@@ -21,7 +21,8 @@ test_cases = [
         'Fwd Act Data Pkts': 10, 'Fwd Seg Size Min': 20, 'Active Mean': 100, 'Active Std': 10,
         'Active Max': 200, 'Active Min': 50, 'Idle Mean': 1000, 'Idle Std': 100, 'Idle Max': 2000, 'Idle Min': 500,
         'Flow IAT Mean': 100, 'Flow IAT Std': 10, 'Flow IAT Max': 200, 'Flow IAT Min': 50,
-        'Fwd IAT Mean': 100, 'Fwd IAT Std': 10, 'Fwd IAT Max': 200, 'Fwd IAT Min': 50
+        'Fwd IAT Mean': 100, 'Fwd IAT Std': 10, 'Fwd IAT Max': 200, 'Fwd IAT Min': 50,
+        'message': 'This is a test log message containing http://malicious-url.com and malicious-domain.com'
     },
     {
         'Flow Duration': 2000, 'Tot Fwd Pkts': 20, 'Tot Bwd Pkts': 10,
