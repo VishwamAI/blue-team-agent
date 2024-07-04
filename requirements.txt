@@ -1,4 +1,4 @@
-Flask==2.0.1
+Flask==2.2.5
 gym==0.18.0
 requests==2.25.1
 numpy==1.21.0
