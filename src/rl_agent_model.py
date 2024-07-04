@@ -5,6 +5,7 @@ from tensorflow.keras import layers
 from flask import Flask, request, jsonify
 import logging
 import threading
+from data_fetcher import DataFetcher
 
 # Configure logging
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
@@ -65,11 +66,27 @@ def train_model():
         target_f[0][action] = target
         model.fit(state, target_f, epochs=1, verbose=0)
 
+def fetch_and_update_cve_data():
+    source_url = "https://cve.circl.lu/api/last/10"  # Fetch the latest 10 CVEs
+    output_file = "preprocessed_data.json"
+    data_fetcher = DataFetcher(source_url, output_file)
+    try:
+        data_fetcher.run()
+        with open(output_file, 'r') as f:
+            cve_data = json.load(f)
+        return cve_data
+    except Exception as e:
+        logging.error(f"Error fetching CVE data: {e}", exc_info=True)
+        return []
+
 def run_training_loop():
     global epsilon, memory, model
     num_episodes = 1000
     save_interval = 100  # Save the model every 100 episodes
     for episode in range(num_episodes):
+        # Fetch and update CVE data at the beginning of each episode
+        cve_data = fetch_and_update_cve_data()
+
         state = env.reset()
         state = state[0] if isinstance(state, tuple) else state
         print(f"Initial state shape: {state.shape}, state: {state}")
@@ -108,7 +125,7 @@ def receive_logs():
         logging.info(f"Received log data: {log_data}")
 
         # Convert log data to state representation for the RL agent
-        state = convert_log_to_state(log_data)
+        state = convert_log_to_state(log_data, cve_data)
         print(f"Converted state: {state}")
         logging.info(f"Converted state: {state}")
 
@@ -127,7 +144,7 @@ def receive_logs():
         logging.error("Error processing log data", exc_info=True)
         return jsonify({"status": "error", "message": str(e)}), 500
 
-def convert_log_to_state(log_data):
+def convert_log_to_state(log_data, cve_data):
     # Extract relevant metrics from log data
     cpu_usage = log_data.get('cpu_usage', 0)
     memory_usage = log_data.get('memory_usage', 0)
@@ -138,9 +155,13 @@ def convert_log_to_state(log_data):
     intrusion_alerts = log_data.get('intrusion_alerts', 0)
     firewall_logs = log_data.get('firewall_logs', 0)
 
+    # Extract relevant metrics from CVE data
+    cve_count = len(cve_data)
+    cve_severity = sum(item.get('cvss', {}).get('score', 0) for item in cve_data) / cve_count if cve_count > 0 else 0
+
     # Create state representation
-    state = np.array([cpu_usage, memory_usage, disk_usage, packet_rate, connection_count, anomaly_score, intrusion_alerts, firewall_logs])
-    state = np.reshape(state, [1, 8])  # Update to match the number of metrics
+    state = np.array([cpu_usage, memory_usage, disk_usage, packet_rate, connection_count, anomaly_score, intrusion_alerts, firewall_logs, cve_count, cve_severity])
+    state = np.reshape(state, [1, 10])  # Update to match the number of metrics
     return state
 
 def execute_action(action):
