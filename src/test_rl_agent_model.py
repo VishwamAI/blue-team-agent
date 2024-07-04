@@ -49,25 +49,19 @@ test_cases = [
     },
     {
         'Flow Duration': 500, 'Tot Fwd Pkts': 5, 'Tot Bwd Pkts': 2,
-        'TotLen Fwd Pkts': 250, 'TotLen Bwd Pkts': 100,
-        'Fwd Pkt Len Max': 50, 'Fwd Pkt Len Min': 25, 'Fwd Pkt Len Mean': 37.5,
-        'Fwd Pkt Len Std': 5, 'Bwd Pkt Len Max': 40, 'Bwd Pkt Len Min': 20,
-        'Bwd Pkt Len Mean': 30, 'Bwd Pkt Len Std': 4, 'Flow Byts/s': 500,
-        'Flow Pkts/s': 5, 'Fwd IAT Tot': 250, 'Bwd IAT Tot': 100,
-        'Fwd Header Len': 10, 'Bwd Header Len': 5, 'Fwd Pkts/s': 2.5, 'Bwd Pkts/s': 1.25,
-        'Pkt Len Min': 20, 'Pkt Len Max': 50, 'Pkt Len Mean': 35, 'Pkt Len Std': 5,
-        'Pkt Len Var': 25, 'FIN Flag Cnt': 0, 'SYN Flag Cnt': 1, 'RST Flag Cnt': 0,
-        'PSH Flag Cnt': 1, 'ACK Flag Cnt': 1, 'URG Flag Cnt': 0, 'CWE Flag Count': 0,
-        'ECE Flag Cnt': 0, 'Pkt Size Avg': 35, 'Fwd Seg Size Avg': 37.5, 'Bwd Seg Size Avg': 30,
-        'Fwd Byts/b Avg': 0, 'Fwd Pkts/b Avg': 0, 'Fwd Blk Rate Avg': 0, 'Bwd Byts/b Avg': 0,
-        'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0, 'Subflow Fwd Pkts': 5, 'Subflow Fwd Byts': 250,
-        'Subflow Bwd Pkts': 2, 'Subflow Bwd Byts': 100, 'Init Fwd Win Byts': 4096, 'Init Bwd Win Byts': 2048,
-        'Fwd Act Data Pkts': 5, 'Fwd Seg Size Min': 10, 'Active Mean': 50, 'Active Std': 5,
-        'Active Max': 100, 'Active Min': 25, 'Idle Mean': 500, 'Idle Std': 50, 'Idle Max': 1000, 'Idle Min': 250,
-        'Flow IAT Mean': 50, 'Flow IAT Std': 5, 'Flow IAT Max': 100, 'Flow IAT Min': 25,
-        'Fwd IAT Mean': 50, 'Fwd IAT Std': 5, 'Fwd IAT Max': 100, 'Fwd IAT Min': 25,
+        'TotLen Fwd Pkts': 250, 'TotLen Bwd Pkts': 100, 'Fwd Pkt Len Max': 50, 'Fwd Pkt Len Min': 25, 'Fwd Pkt Len Mean': 37.5,
+        'Fwd Pkt Len Std': 5, 'Bwd Pkt Len Max': 40, 'Bwd Pkt Len Min': 20, 'Bwd Pkt Len Mean': 30, 'Bwd Pkt Len Std': 4,
+        'Flow Byts/s': 500, 'Flow Pkts/s': 5, 'Fwd IAT Tot': 250, 'Bwd IAT Tot': 100, 'Fwd Header Len': 10, 'Bwd Header Len': 5,
+        'Fwd Pkts/s': 2.5, 'Bwd Pkts/s': 1.25, 'Pkt Len Min': 20, 'Pkt Len Max': 50, 'Pkt Len Mean': 35, 'Pkt Len Std': 5,
+        'Pkt Len Var': 25, 'FIN Flag Cnt': 0, 'SYN Flag Cnt': 1, 'RST Flag Cnt': 0, 'PSH Flag Cnt': 1, 'ACK Flag Cnt': 1,
+        'URG Flag Cnt': 0, 'CWE Flag Count': 0, 'ECE Flag Cnt': 0, 'Pkt Size Avg': 35, 'Fwd Seg Size Avg': 37.5, 'Bwd Seg Size Avg': 30,
+        'Fwd Byts/b Avg': 0, 'Fwd Pkts/b Avg': 0, 'Fwd Blk Rate Avg': 0, 'Bwd Byts/b Avg': 0, 'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0,
+        'Subflow Fwd Pkts': 5, 'Subflow Fwd Byts': 250, 'Subflow Bwd Pkts': 2, 'Subflow Bwd Byts': 100, 'Init Fwd Win Byts': 4096,
+        'Init Bwd Win Byts': 2048, 'Fwd Act Data Pkts': 5, 'Fwd Seg Size Min': 10, 'Active Mean': 50, 'Active Std': 5, 'Active Max': 100,
+        'Active Min': 25, 'Idle Mean': 500, 'Idle Std': 50, 'Idle Max': 1000, 'Idle Min': 250, 'Flow IAT Mean': 50, 'Flow IAT Std': 5,
+        'Flow IAT Max': 100, 'Flow IAT Min': 25, 'Fwd IAT Mean': 50, 'Fwd IAT Std': 5, 'Fwd IAT Max': 100, 'Fwd IAT Min': 25,
         'message': 'This is yet another test log message containing http://yet-another-malicious-url.com and yet-another-malicious-domain.com',
-        'ip_address': '192.168.1.3', 'rate_limit': 50, 'system_id': 'system_3', 'settings': {}, 'query': 'yet_another_search_query'
+        'ip_address': '192.168.1.3', 'rate_limit': 300, 'system_id': 'system_3', 'settings': {}, 'query': 'yet_another_search_query'
     }
 ]
 
