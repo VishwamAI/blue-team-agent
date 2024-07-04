@@ -42,7 +42,7 @@ The Blue Team Agent is designed to automate various security tasks, including th
 - **Automation Orchestration**: XSOAR is used to orchestrate automation workflows and integrate various tools.
 
 ## Model Components
-- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. Additionally, it includes binary features for the presence of IOCs (URLs, FQDNs, and IPv4 addresses). These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 57.
+- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. Additionally, it includes binary features for the presence of IOCs (URLs, FQDNs, and IPv4 addresses). These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 51.
 - **Action Space**: The action space reflects possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports. The `execute_action` function now accepts dynamic parameters, including `ip_address`, `rate_limit`, `system_id`, `message`, `settings`, and `query`, which are derived from the log data.
 - **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
 
@@ -65,15 +65,19 @@ The main training loop involves the following steps:
    ```bash
    pip install -r requirements.txt
    ```
-2. Preprocess the OTX data:
+2. Set the AlienVault OTX API key environment variable:
+   ```bash
+   export ALIENVAULT_OTX_API_KEY=your_api_key_here
+   ```
+3. Preprocess the OTX data:
    ```bash
    python3 preprocess_otx_data.py
    ```
-3. Start the mock server:
+4. Start the mock server:
    ```bash
    python3 mock_server.py
    ```
-4. Run the RL agent script:
+5. Run the RL agent script:
    ```bash
    python3 rl_agent_model.py
    ```
