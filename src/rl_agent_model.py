@@ -10,7 +10,7 @@ import threading
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Define the state representation and action space for cybersecurity data
-num_inputs = 78  # Number of cybersecurity metrics
+num_inputs = 76  # Number of cybersecurity metrics
 num_actions = 10  # Number of possible actions
 
 # List of relevant features for state representation
@@ -94,22 +94,23 @@ def run_training_loop():
     global epsilon, memory, model
     num_episodes = 1000
     save_interval = 100  # Save the model every 100 episodes
+
+    # Load preprocessed data
+    import pandas as pd
+    data = pd.read_csv('/home/ubuntu/cse-cic-ids2018/Processed Traffic Data for ML Algorithms/preprocessed_Friday-23-02-2018_TrafficForML_CICFlowMeter.csv')
+    features = data[relevant_features].values
+    labels = data['Label'].values
+
     for episode in range(num_episodes):
-        state = np.random.rand(num_inputs)  # Initialize state with random values
-        state = np.reshape(state, [1, num_inputs])
-        total_reward = 0
-        for time in range(500):
+        for i in range(len(features)):
+            state = features[i]
+            state = np.reshape(state, [1, num_inputs])
             action = choose_action(state)
-            next_state = np.random.rand(num_inputs)  # Generate next state with random values
-            reward = np.random.rand()  # Generate random reward
-            done = np.random.choice([True, False])  # Randomly choose if the episode is done
+            next_state = features[(i + 1) % len(features)]
             next_state = np.reshape(next_state, [1, num_inputs])
+            reward = labels[i]
+            done = (i == len(features) - 1)
             memory.append((state, action, reward, next_state, done))
-            state = next_state
-            total_reward += reward
-            if done:
-                print(f"Episode: {episode+1}/{num_episodes}, Score: {total_reward}, Epsilon: {epsilon:.2}")
-                break
             train_model()
         if epsilon > epsilon_min:
             epsilon *= epsilon_decay
