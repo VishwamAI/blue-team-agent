@@ -9,17 +9,15 @@ import threading
 # Configure logging
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
-# Define the environment
-env = gym.make('CartPole-v1')
+# Define the state representation and action space for cybersecurity data
+num_inputs = 8  # Number of cybersecurity metrics
+num_actions = 10  # Number of possible actions
 
 # Set random seeds for reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
 
 # Define the neural network model
-num_inputs = env.observation_space.shape[0]
-num_actions = env.action_space.n
-
 model = tf.keras.Sequential([
     layers.Input(shape=(num_inputs,)),
     layers.Dense(24, activation='relu'),
@@ -45,7 +43,7 @@ memory = []
 # Function to choose an action based on the current state
 def choose_action(state):
     if np.random.rand() <= epsilon:
-        return env.action_space.sample()
+        return np.random.randint(num_actions)
     q_values = model.predict(state)
     return np.argmax(q_values[0])
 
@@ -70,18 +68,14 @@ def run_training_loop():
     num_episodes = 1000
     save_interval = 100  # Save the model every 100 episodes
     for episode in range(num_episodes):
-        state = env.reset()
-        state = state[0] if isinstance(state, tuple) else state
-        print(f"Initial state shape: {state.shape}, state: {state}")
+        state = np.random.rand(num_inputs)  # Initialize state with random values
         state = np.reshape(state, [1, num_inputs])
         total_reward = 0
         for time in range(500):
             action = choose_action(state)
-            step_result = env.step(action)
-            print(f"Step result: {step_result}")
-            next_state, reward, done, _ = step_result[:4]
-            next_state = next_state[0] if isinstance(next_state, tuple) else next_state
-            print(f"Next state shape: {next_state.shape}, next_state: {next_state}")
+            next_state = np.random.rand(num_inputs)  # Generate next state with random values
+            reward = np.random.rand()  # Generate random reward
+            done = np.random.choice([True, False])  # Randomly choose if the episode is done
             next_state = np.reshape(next_state, [1, num_inputs])
             memory.append((state, action, reward, next_state, done))
             state = next_state
