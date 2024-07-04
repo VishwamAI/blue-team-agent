@@ -11,7 +11,7 @@ import json
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Define the state representation and action space for cybersecurity data
-num_inputs = 60  # Number of cybersecurity metrics
+num_inputs = 63  # Number of cybersecurity metrics plus IOCs
 num_actions = 10  # Number of possible actions
 
 # List of relevant features for state representation
@@ -151,17 +151,23 @@ def receive_logs():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 def convert_log_to_state(log_data):
+    # Load IOCs from JSON file
+    with open('iocs.json', 'r') as f:
+        iocs = json.load(f)
+
     # Create state representation
     state = []
     for feature in relevant_features:
         value = log_data.get(feature, 0)
-        print(f"Feature: {feature}, Value: {value}")
         state.append(value)
-        print(f"State length after appending {feature}: {len(state)}")
+
+    # Add binary features for IOCs
+    state.append(1 if any(url in log_data.get('message', '') for url in iocs['urls']) else 0)
+    state.append(1 if any(fqdn in log_data.get('message', '') for fqdn in iocs['fqdns']) else 0)
+    state.append(1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0)
 
     state = np.array(state)
-    print(f"State before reshaping: {state}, Length: {len(state)}")
-    state = np.reshape(state, [1, num_inputs])  # Update to match the number of metrics
+    state = np.reshape(state, [1, num_inputs])  # Update to match the number of metrics plus IOCs
     return state
 
 def execute_action(action, ip_address=None, rate_limit=None, system_id=None, message=None, settings=None, query=None):
