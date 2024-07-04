@@ -4,3 +4,6 @@ __pycache__/
 # Ignore log files
 rl_agent_errors.log
 failed_run_logs.txt
+
+# Ignore large data files
+src/otx_data.json
