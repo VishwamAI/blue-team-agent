@@ -13,7 +13,7 @@ class OTXDataFetcher:
     def fetch_data(self):
         try:
             # Fetch the latest threat intelligence data with a timeout
-            pulses = self.otx.getall()  # Removed the timeout parameter
+            pulses = self.otx.getall(timeout=30)
             print("Data fetched successfully.")
             return pulses
         except requests.exceptions.Timeout:
