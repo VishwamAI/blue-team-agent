@@ -58,7 +58,11 @@ def test_case_1():
     global iocs_appended
     iocs_appended = False
     log_data = test_cases[0]
-    state = convert_log_to_state(log_data)
+    cve_data = [
+        {"id": "CVE-2021-1234", "cvss": {"score": 7.5}},
+        {"id": "CVE-2021-5678", "cvss": {"score": 5.0}}
+    ]
+    state = convert_log_to_state(log_data, cve_data)
     print(f"State array for test_case_1: {state}")
     assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
@@ -77,7 +81,11 @@ def test_case_2():
     global iocs_appended
     iocs_appended = False
     log_data = test_cases[1]
-    state = convert_log_to_state(log_data)
+    cve_data = [
+        {"id": "CVE-2021-1234", "cvss": {"score": 7.5}},
+        {"id": "CVE-2021-5678", "cvss": {"score": 5.0}}
+    ]
+    state = convert_log_to_state(log_data, cve_data)
     print(f"State array for test_case_2: {state}")
     assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
@@ -96,7 +104,11 @@ def test_case_3():
     global iocs_appended
     iocs_appended = False
     log_data = test_cases[2]
-    state = convert_log_to_state(log_data)
+    cve_data = [
+        {"id": "CVE-2021-1234", "cvss": {"score": 7.5}},
+        {"id": "CVE-2021-5678", "cvss": {"score": 5.0}}
+    ]
+    state = convert_log_to_state(log_data, cve_data)
     print(f"State array for test_case_3: {state}")
     assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
