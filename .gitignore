@@ -1,5 +1,6 @@
 # Ignore log files
 failed_run_logs.txt
+rl_agent_errors.log
 
 # Ignore Python cache files
 __pycache__/

@@ -6,25 +6,52 @@ from flask import Flask, request, jsonify
 import logging
 import threading
 from data_fetcher import DataFetcher
+<<<<<<< HEAD
+from data_fetcher import DataFetcher
+||||||| 1452f40
+=======
+import json
+
+# Initialize the iocs_appended flag
+iocs_appended = False
+>>>>>>> e074ddbf8e05eab11cc9e4812115513788c59771
 
 # Configure logging
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
-# Define the environment
-env = gym.make('CartPole-v1')
+# Define the state representation and action space for cybersecurity data
+num_inputs = 51  # Number of relevant features plus IOCs
+num_actions = 10  # Number of possible actions
+
+# List of relevant features for state representation
+relevant_features = [
+    'Flow Duration', 'Tot Fwd Pkts', 'Tot Bwd Pkts',
+    'TotLen Fwd Pkts', 'TotLen Bwd Pkts',
+    'Fwd Pkt Len Max', 'Fwd Pkt Len Min', 'Fwd Pkt Len Mean',
+    'Fwd Pkt Len Std', 'Bwd Pkt Len Max', 'Bwd Pkt Len Min',
+    'Bwd Pkt Len Mean', 'Bwd Pkt Len Std', 'Flow Byts/s',
+    'Flow Pkts/s', 'Fwd IAT Tot', 'Bwd IAT Tot',
+    'Fwd Header Len', 'Bwd Header Len', 'Fwd Pkts/s', 'Bwd Pkts/s',
+    'Pkt Len Min', 'Pkt Len Max', 'Pkt Len Mean', 'Pkt Len Std',
+    'Pkt Len Var', 'FIN Flag Cnt', 'SYN Flag Cnt', 'RST Flag Cnt',
+    'PSH Flag Cnt', 'ACK Flag Cnt', 'URG Flag Cnt', 'CWE Flag Count',
+    'ECE Flag Cnt', 'Pkt Size Avg', 'Fwd Seg Size Avg', 'Bwd Seg Size Avg',
+    'Fwd Byts/b Avg', 'Fwd Pkts/b Avg', 'Fwd Blk Rate Avg', 'Bwd Byts/b Avg',
+    'Bwd Pkts/b Avg', 'Bwd Blk Rate Avg', 'Subflow Fwd Pkts', 'Subflow Fwd Byts',
+    'Subflow Bwd Pkts', 'Subflow Bwd Byts', 'Init Fwd Win Byts', 'Init Bwd Win Byts',
+    'Fwd Act Data Pkts', 'Fwd Seg Size Min'
+]
 
 # Set random seeds for reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
 
 # Define the neural network model
-num_inputs = env.observation_space.shape[0]
-num_actions = env.action_space.n
-
 model = tf.keras.Sequential([
     layers.Input(shape=(num_inputs,)),
-    layers.Dense(24, activation='relu'),
-    layers.Dense(24, activation='relu'),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(32, activation='relu'),
     layers.Dense(num_actions, activation='linear')
 ])
 
@@ -46,7 +73,7 @@ memory = []
 # Function to choose an action based on the current state
 def choose_action(state):
     if np.random.rand() <= epsilon:
-        return env.action_space.sample()
+        return np.random.randint(num_actions)
     q_values = model.predict(state)
     return np.argmax(q_values[0])
 
@@ -83,29 +110,24 @@ def run_training_loop():
     global epsilon, memory, model
     num_episodes = 1000
     save_interval = 100  # Save the model every 100 episodes
+
+    # Load preprocessed data from .npy files
+    features = np.load('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/preprocessed_otx_data.npy')
+    labels = np.load('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/preprocessed_otx_data_labels.npy')
+
     for episode in range(num_episodes):
         # Fetch and update CVE data at the beginning of each episode
         cve_data = fetch_and_update_cve_data()
 
-        state = env.reset()
-        state = state[0] if isinstance(state, tuple) else state
-        print(f"Initial state shape: {state.shape}, state: {state}")
-        state = np.reshape(state, [1, num_inputs])
-        total_reward = 0
-        for time in range(500):
+        for i in range(len(features)):
+            state = features[i]
+            state = np.reshape(state, [1, num_inputs])
             action = choose_action(state)
-            step_result = env.step(action)
-            print(f"Step result: {step_result}")
-            next_state, reward, done, _ = step_result[:4]
-            next_state = next_state[0] if isinstance(next_state, tuple) else next_state
-            print(f"Next state shape: {next_state.shape}, next_state: {next_state}")
+            next_state = features[(i + 1) % len(features)]
             next_state = np.reshape(next_state, [1, num_inputs])
+            reward = labels[i]
+            done = (i == len(features) - 1)
             memory.append((state, action, reward, next_state, done))
-            state = next_state
-            total_reward += reward
-            if done:
-                print(f"Episode: {episode+1}/{num_episodes}, Score: {total_reward}, Epsilon: {epsilon:.2}")
-                break
             train_model()
         if epsilon > epsilon_min:
             epsilon *= epsilon_decay
@@ -134,8 +156,16 @@ def receive_logs():
         print(f"Chosen action: {action}")
         logging.info(f"Chosen action: {action}")
 
-        # Execute the chosen action (this is a placeholder, actual execution logic will be added)
-        execute_action(action)
+        # Extract parameters from log data
+        ip_address = log_data.get('ip_address')
+        rate_limit = log_data.get('rate_limit')
+        system_id = log_data.get('system_id')
+        message = log_data.get('message')
+        settings = log_data.get('settings')
+        query = log_data.get('query')
+
+        # Execute the chosen action with dynamic parameters
+        execute_action(action, ip_address=ip_address, rate_limit=rate_limit, system_id=system_id, message=message, settings=settings, query=query)
         logging.info(f"Executed action: {action}")
 
         return jsonify({"status": "success"}), 200
@@ -145,26 +175,59 @@ def receive_logs():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 def convert_log_to_state(log_data, cve_data):
-    # Extract relevant metrics from log data
-    cpu_usage = log_data.get('cpu_usage', 0)
-    memory_usage = log_data.get('memory_usage', 0)
-    disk_usage = log_data.get('disk_usage', 0)
-    packet_rate = log_data.get('packet_rate', 0)
-    connection_count = log_data.get('connection_count', 0)
-    anomaly_score = log_data.get('anomaly_score', 0)
-    intrusion_alerts = log_data.get('intrusion_alerts', 0)
-    firewall_logs = log_data.get('firewall_logs', 0)
+    import os
+    global iocs_appended
+    # Reset the iocs_appended flag to False at the beginning of the function
+    iocs_appended = False
+    # Load IOCs from JSON file
+    script_dir = os.path.dirname(__file__)
+    iocs_path = os.path.join(script_dir, 'iocs.json')
+    if not os.path.exists(iocs_path):
+        iocs_path = 'src/iocs.json'  # Adjust path for CI/CD environment
+    with open(iocs_path, 'r') as f:
+        iocs = json.load(f)
 
     # Extract relevant metrics from CVE data
     cve_count = len(cve_data)
     cve_severity = sum(item.get('cvss', {}).get('score', 0) for item in cve_data) / cve_count if cve_count > 0 else 0
 
     # Create state representation
-    state = np.array([cpu_usage, memory_usage, disk_usage, packet_rate, connection_count, anomaly_score, intrusion_alerts, firewall_logs, cve_count, cve_severity])
-    state = np.reshape(state, [1, 10])  # Update to match the number of metrics
+    state = []
+    for feature in relevant_features:
+        value = log_data.get(feature, 0)
+        state.append(value)
+    print(f"State array after appending relevant features: {state}")
+    print(f"Length after appending relevant features: {len(state)}")
+
+    # Add binary features for IOCs
+    url_ioc = 1 if any(url in log_data.get('message', '') for url in iocs['urls']) else 0
+    fqdn_ioc = 1 if any(fqdn in log_data.get('message', '') for fqdn in iocs['fqdns']) else 0
+    ipv4_ioc = 1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0
+
+    # Ensure binary IOC features are only appended once
+    print(f"State array before appending IOCs: {state}")
+    if len(state) == len(relevant_features) - 3 and not iocs_appended:
+        state.extend([url_ioc, fqdn_ioc, ipv4_ioc])
+        iocs_appended = True
+    print(f"State array after appending IOCs: {state}")
+    print(f"Length after appending IOCs: {len(state)}")
+
+    # Ensure the state array has the correct length
+    expected_length = 51  # Update to match the number of metrics plus IOCs
+    if len(state) != expected_length:
+        print(f"State array: {state}")
+        raise ValueError(f"State array length is {len(state)}, expected {expected_length}")
+
+    # Adjust the state array length if necessary
+    print(f"State array before truncating: {state}")
+    state = state[:expected_length]
+    print(f"State array after truncating: {state}")
+    state = np.array(state)
+    state = np.reshape(state, [1, expected_length])  # Update to match the number of metrics plus IOCs
+    print(f"Final state array: {state}")
     return state
 
-def execute_action(action):
+def execute_action(action, ip_address=None, rate_limit=None, system_id=None, message=None, settings=None, query=None):
     # Define actions based on the action space
     actions = [
         "block_ip",
@@ -182,14 +245,6 @@ def execute_action(action):
     # Execute the chosen action
     chosen_action = actions[action]
     print(f"Executing action: {chosen_action}")
-
-    # Example IP address and other parameters (these should be derived from the log data or state)
-    ip_address = "192.168.1.1"
-    rate_limit = 100
-    system_id = "system_123"
-    message = "Alert: Potential security breach detected"
-    settings = {"rule": "allow_all"}
-    query = "SELECT * FROM logs WHERE anomaly_score > 0.5"
 
     # Implement the logic to interact with the blue team's infrastructure based on the chosen action
     if chosen_action == "block_ip":
