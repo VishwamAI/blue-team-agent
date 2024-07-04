@@ -5,6 +5,7 @@ from tensorflow.keras import layers
 from flask import Flask, request, jsonify
 import logging
 import threading
+import json
 
 # Configure logging
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
