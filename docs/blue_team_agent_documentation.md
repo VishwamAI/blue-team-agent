@@ -49,7 +49,7 @@ The Blue Team Agent is designed to automate various security tasks, including th
 
 ## Reinforcement Learning Model
 ### Model Components
-- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 60.
+- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 51.
 - **Action Space**: The action space reflects possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports. The `execute_action` function now accepts dynamic parameters, including `ip_address`, `rate_limit`, `system_id`, `message`, `settings`, and `query`, which are derived from the log data.
 - **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
 
@@ -79,7 +79,7 @@ Results from the training process indicate that the agent's performance improves
 ## Usage Instructions
 ### Prerequisites
 - Python 3.x
-- Required Python libraries: Flask, gym, tensorflow, requests, numpy
+- Required Python libraries: Flask, gymnasium, tensorflow, requests, numpy
 
 ### Setup
 1. Install the required Python libraries:
@@ -133,7 +133,7 @@ Results from the training process indicate that the agent's performance improves
 
 3. **ModuleNotFoundError**:
    - **Symptom**: Missing Python modules when running scripts.
-   - **Solution**: Install the required Python libraries using `pip install Flask gym tensorflow requests numpy`. Double-check the installation paths and Python environment.
+   - **Solution**: Install the required Python libraries using `pip install Flask gymnasium tensorflow requests numpy`. Double-check the installation paths and Python environment.
 
 ### FAQ
 1. **How do I start the Blue Team Agent?**

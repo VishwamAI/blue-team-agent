@@ -58,7 +58,7 @@ The main training loop involves the following steps:
 ## Usage Instructions
 ### Prerequisites
 - Python 3.x
-- Required Python libraries: Flask, gym, tensorflow, requests, numpy
+- Required Python libraries: Flask, gymnasium, tensorflow, requests, numpy
 
 ### Setup
 1. Install the required Python libraries:
@@ -116,7 +116,7 @@ The main training loop involves the following steps:
 
 3. **ModuleNotFoundError**:
    - **Symptom**: Missing Python modules when running scripts.
-   - **Solution**: Install the required Python libraries using `pip install Flask gym tensorflow requests numpy`. Double-check the installation paths and Python environment.
+   - **Solution**: Install the required Python libraries using `pip install Flask gymnasium tensorflow requests numpy`. Double-check the installation paths and Python environment.
 
 ### FAQ
 1. **How do I start the Blue Team Agent?**
