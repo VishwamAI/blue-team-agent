@@ -22,7 +22,8 @@ test_cases = [
         'Active Max': 200, 'Active Min': 50, 'Idle Mean': 1000, 'Idle Std': 100, 'Idle Max': 2000, 'Idle Min': 500,
         'Flow IAT Mean': 100, 'Flow IAT Std': 10, 'Flow IAT Max': 200, 'Flow IAT Min': 50,
         'Fwd IAT Mean': 100, 'Fwd IAT Std': 10, 'Fwd IAT Max': 200, 'Fwd IAT Min': 50,
-        'message': 'This is a test log message containing http://malicious-url.com and malicious-domain.com'
+        'message': 'This is a test log message containing http://malicious-url.com and malicious-domain.com',
+        'ip_address': '192.168.1.1', 'rate_limit': 100, 'system_id': 'system_1', 'settings': {}, 'query': 'search_query'
     },
     {
         'Flow Duration': 2000, 'Tot Fwd Pkts': 20, 'Tot Bwd Pkts': 10,
