@@ -89,11 +89,18 @@ def run_training_loop():
     num_episodes = 1000
     save_interval = 100  # Save the model every 100 episodes
 
-    # Load preprocessed data
-    import pandas as pd
-    data = pd.read_csv('/home/ubuntu/cse-cic-ids2018/Processed Traffic Data for ML Algorithms/preprocessed_Friday-23-02-2018_TrafficForML_CICFlowMeter.csv')
-    features = data[relevant_features].values
-    labels = data['Label'].values
+    # Load preprocessed data from otx_data.json
+    with open('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/otx_data.json', 'r') as f:
+        data = json.load(f)
+
+    features = []
+    labels = []
+    for pulse in data:
+        feature_vector = [pulse.get(feature, 0) for feature in relevant_features]
+        features.append(feature_vector)
+        labels.append(pulse.get('label', 0))  # Assuming 'label' is a key in the OTX data
+    features = np.array(features)
+    labels = np.array(labels)
 
     for episode in range(num_episodes):
         for i in range(len(features)):
