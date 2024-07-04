@@ -49,8 +49,8 @@ The Blue Team Agent is designed to automate various security tasks, including th
 
 ## Reinforcement Learning Model
 ### Model Components
-- **State Representation**: The state is represented by metrics extracted from log data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, and firewall logs. These metrics provide a comprehensive view of the system's current status and potential security threats.
-- **Action Space**: The agent can perform a variety of actions, including blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports. These actions enable the agent to respond effectively to different security scenarios.
+- **State Representation**: The current model is set up for the CartPole-v1 environment from OpenAI Gym, which is a test environment. To adapt it for cybersecurity-related data, the state representation needs to be updated to include metrics extracted from log data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, and firewall logs. These metrics provide a comprehensive view of the system's current status and potential security threats.
+- **Action Space**: The current action space is designed for the CartPole-v1 environment. It needs to be modified to reflect possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports.
 - **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is trained using reinforcement learning techniques to improve its decision-making over time.
 
 ### Training Loop
@@ -59,7 +59,7 @@ The main training loop involves the following steps:
 2. **Choose Action**: The agent chooses an action based on the current state using its neural network model. The action is selected to maximize the expected reward.
 3. **Execute Action**: The chosen action is executed, and the environment provides feedback in the form of a reward or penalty.
 4. **Update Model**: The agent updates its model based on the feedback received, adjusting its predictions to improve future performance.
-5. **Repeat**: The loop repeats for a specified number of episodes, with the agent learning and improving over time. The training process continues until the agent achieves satisfactory performance.
+5. **Repeat**: The loop repeats for a specified number of episodes, with the agent learning and improving over time. The training process continues until the agent achieves satisfactory performance. Note that the current training loop is conceptual and requires implementation with cybersecurity data.
 
 ## Usage Instructions
 ### Prerequisites
