@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - clean-history
+      - update-cybersecurity-model
   pull_request:
     branches:
       - main
       - clean-history
+      - update-cybersecurity-model
 
 jobs:
   build:
