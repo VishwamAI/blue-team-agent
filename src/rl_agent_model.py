@@ -6,15 +6,10 @@ from flask import Flask, request, jsonify
 import logging
 import threading
 from data_fetcher import DataFetcher
-<<<<<<< HEAD
-from data_fetcher import DataFetcher
-||||||| 1452f40
-=======
 import json
 
 # Initialize the iocs_appended flag
 iocs_appended = False
->>>>>>> e074ddbf8e05eab11cc9e4812115513788c59771
 
 # Configure logging
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
