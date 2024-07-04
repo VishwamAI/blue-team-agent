@@ -167,22 +167,19 @@ def convert_log_to_state(log_data):
     print(f"State array after appending relevant features: {state}")
     print(f"Length after appending relevant features: {len(state)}")
 
-    # Add binary features for IOCs if not already present
-    if 1 not in state[-3:]:
-        state.append(1 if any(url in log_data.get('message', '') for url in iocs['urls']) else 0)
-    print(f"State array after appending URL IOCs: {state}")
-    print(f"Length after appending URL IOCs: {len(state)}")
-    if 1 not in state[-3:]:
-        state.append(1 if any(fqdn in log_data.get('message', '') for fqdn in iocs['fqdns']) else 0)
-    print(f"State array after appending FQDN IOCs: {state}")
-    print(f"Length after appending FQDN IOCs: {len(state)}")
-    if 1 not in state[-3:]:
-        state.append(1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0)
-    print(f"State array after appending IPv4 IOCs: {state}")
-    print(f"Length after appending IPv4 IOCs: {len(state)}")
+    # Add binary features for IOCs
+    url_ioc = 1 if any(url in log_data.get('message', '') for url in iocs['urls']) else 0
+    fqdn_ioc = 1 if any(fqdn in log_data.get('message', '') for fqdn in iocs['fqdns']) else 0
+    ipv4_ioc = 1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0
+
+    # Ensure binary IOC features are only appended once
+    if len(state) == len(relevant_features):
+        state.extend([url_ioc, fqdn_ioc, ipv4_ioc])
+    print(f"State array after appending IOCs: {state}")
+    print(f"Length after appending IOCs: {len(state)}")
 
     # Ensure the state array has the correct length
-    expected_length = len(relevant_features) + 3  # 48 relevant features + 3 binary features for IOCs
+    expected_length = len(relevant_features) + 3  # Update to match the number of metrics plus IOCs
     if len(state) != expected_length:
         print(f"State array: {state}")
         raise ValueError(f"State array length is {len(state)}, expected {expected_length}")
