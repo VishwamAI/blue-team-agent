@@ -133,3 +133,5 @@ The main training loop involves the following steps:
 
 ## Conclusion
 The Blue Team Agent leverages reinforcement learning to automate security tasks and improve decision-making over time. By integrating various tools and best practices, the agent enhances the organization's security posture and streamlines incident response processes.
+
+# Trigger CI/CD pipeline
