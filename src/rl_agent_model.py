@@ -172,6 +172,7 @@ def convert_log_to_state(log_data):
     state.append(1 if any(ipv4 in log_data.get('message', '') for ipv4 in iocs['ipv4s']) else 0)
 
     state = np.array(state)
+    print(f"State array length before reshape: {len(state)}")  # Diagnostic print statement
     state = np.reshape(state, [1, num_inputs])  # Update to match the number of metrics plus IOCs
     return state
 
