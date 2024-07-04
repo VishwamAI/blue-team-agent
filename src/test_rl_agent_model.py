@@ -57,6 +57,7 @@ test_cases = [
 def test_case_1():
     log_data = test_cases[0]
     state = convert_log_to_state(log_data)
+    print(f"State array for test_case_1: {state}")
     assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
     assert 0 <= action < 10, f"Chosen action {action} is out of range"
@@ -73,6 +74,7 @@ def test_case_1():
 def test_case_2():
     log_data = test_cases[1]
     state = convert_log_to_state(log_data)
+    print(f"State array for test_case_2: {state}")
     assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
     assert 0 <= action < 10, f"Chosen action {action} is out of range"
@@ -89,6 +91,7 @@ def test_case_2():
 def test_case_3():
     log_data = test_cases[2]
     state = convert_log_to_state(log_data)
+    print(f"State array for test_case_3: {state}")
     assert state.shape == (1, 51), f"State array length is {state.shape[1]}, expected 51"
     action = choose_action(state)
     assert 0 <= action < 10, f"Chosen action {action} is out of range"
