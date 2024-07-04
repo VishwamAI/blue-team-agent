@@ -152,7 +152,7 @@ def receive_logs():
 
 def convert_log_to_state(log_data):
     # Load IOCs from JSON file
-    with open('iocs.json', 'r') as f:
+    with open('/home/ubuntu/home/ubuntu/blue-team-agent-fresh/src/iocs.json', 'r') as f:
         iocs = json.load(f)
 
     # Create state representation
