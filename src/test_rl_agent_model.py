@@ -19,8 +19,7 @@ test_cases = [
         'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0, 'Subflow Fwd Pkts': 10, 'Subflow Fwd Byts': 500,
         'Subflow Bwd Pkts': 5, 'Subflow Bwd Byts': 250, 'Init Fwd Win Byts': 8192, 'Init Bwd Win Byts': 4096,
         'Fwd Act Data Pkts': 10, 'Fwd Seg Size Min': 20,
-        'message': 'This is a test log message containing http://malicious-url.com and malicious-domain.com',
-        'ip_address': '192.168.1.1', 'rate_limit': 100, 'system_id': 'system_1', 'settings': {}, 'query': 'search_query'
+        'message': 'This is a test log message containing http://malicious-url.com and malicious-domain.com'
     },
     {
         'Flow Duration': 2000, 'Tot Fwd Pkts': 20, 'Tot Bwd Pkts': 10,
@@ -38,8 +37,7 @@ test_cases = [
         'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0, 'Subflow Fwd Pkts': 20, 'Subflow Fwd Byts': 1000,
         'Subflow Bwd Pkts': 10, 'Subflow Bwd Byts': 500, 'Init Fwd Win Byts': 16384, 'Init Bwd Win Byts': 8192,
         'Fwd Act Data Pkts': 20, 'Fwd Seg Size Min': 40,
-        'message': 'This is another test log message containing http://another-malicious-url.com and another-malicious-domain.com',
-        'ip_address': '192.168.1.2', 'rate_limit': 200, 'system_id': 'system_2', 'settings': {}, 'query': 'another_search_query'
+        'message': 'This is another test log message containing http://another-malicious-url.com and another-malicious-domain.com'
     },
     {
         'Flow Duration': 500, 'Tot Fwd Pkts': 5, 'Tot Bwd Pkts': 2,
@@ -52,8 +50,7 @@ test_cases = [
         'Fwd Byts/b Avg': 0, 'Fwd Pkts/b Avg': 0, 'Fwd Blk Rate Avg': 0, 'Bwd Byts/b Avg': 0, 'Bwd Pkts/b Avg': 0, 'Bwd Blk Rate Avg': 0,
         'Subflow Fwd Pkts': 5, 'Subflow Fwd Byts': 250, 'Subflow Bwd Pkts': 2, 'Subflow Bwd Byts': 100, 'Init Fwd Win Byts': 4096,
         'Init Bwd Win Byts': 2048, 'Fwd Act Data Pkts': 5, 'Fwd Seg Size Min': 10,
-        'message': 'This is yet another test log message containing http://yet-another-malicious-url.com and yet-another-malicious-domain.com',
-        'ip_address': '192.168.1.3', 'rate_limit': 300, 'system_id': 'system_3', 'settings': {}, 'query': 'yet_another_search_query'
+        'message': 'This is yet another test log message containing http://yet-another-malicious-url.com and yet-another-malicious-domain.com'
     }
 ]
 
