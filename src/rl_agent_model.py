@@ -10,8 +10,34 @@ import threading
 logging.basicConfig(filename='rl_agent_errors.log', level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 
 # Define the state representation and action space for cybersecurity data
-num_inputs = 8  # Number of cybersecurity metrics
+num_inputs = 78  # Number of cybersecurity metrics
 num_actions = 10  # Number of possible actions
+
+# List of relevant features for state representation
+relevant_features = [
+    'Flow Duration', 'Total Fwd Packets', 'Total Backward Packets',
+    'Total Length of Fwd Packets', 'Total Length of Bwd Packets',
+    'Fwd Packet Length Max', 'Fwd Packet Length Min', 'Fwd Packet Length Mean',
+    'Fwd Packet Length Std', 'Bwd Packet Length Max', 'Bwd Packet Length Min',
+    'Bwd Packet Length Mean', 'Bwd Packet Length Std', 'Flow Bytes/s',
+    'Flow Packets/s', 'Flow IAT Mean', 'Flow IAT Std', 'Flow IAT Max',
+    'Flow IAT Min', 'Fwd IAT Total', 'Fwd IAT Mean', 'Fwd IAT Std',
+    'Fwd IAT Max', 'Fwd IAT Min', 'Bwd IAT Total', 'Bwd IAT Mean',
+    'Bwd IAT Std', 'Bwd IAT Max', 'Bwd IAT Min', 'Fwd PSH Flags',
+    'Bwd PSH Flags', 'Fwd URG Flags', 'Bwd URG Flags', 'Fwd Header Length',
+    'Bwd Header Length', 'Fwd Packets/s', 'Bwd Packets/s', 'Min Packet Length',
+    'Max Packet Length', 'Packet Length Mean', 'Packet Length Std',
+    'Packet Length Variance', 'FIN Flag Count', 'SYN Flag Count',
+    'RST Flag Count', 'PSH Flag Count', 'ACK Flag Count', 'URG Flag Count',
+    'CWE Flag Count', 'ECE Flag Count', 'Down/Up Ratio', 'Average Packet Size',
+    'Avg Fwd Segment Size', 'Avg Bwd Segment Size', 'Fwd Avg Bytes/Bulk',
+    'Fwd Avg Packets/Bulk', 'Fwd Avg Bulk Rate', 'Bwd Avg Bytes/Bulk',
+    'Bwd Avg Packets/Bulk', 'Bwd Avg Bulk Rate', 'Subflow Fwd Packets',
+    'Subflow Fwd Bytes', 'Subflow Bwd Packets', 'Subflow Bwd Bytes',
+    'Init_Win_bytes_forward', 'Init_Win_bytes_backward', 'act_data_pkt_fwd',
+    'min_seg_size_forward', 'Active Mean', 'Active Std', 'Active Max',
+    'Active Min', 'Idle Mean', 'Idle Std', 'Idle Max', 'Idle Min'
+]
 
 # Set random seeds for reproducibility
 np.random.seed(42)
@@ -20,8 +46,9 @@ tf.random.set_seed(42)
 # Define the neural network model
 model = tf.keras.Sequential([
     layers.Input(shape=(num_inputs,)),
-    layers.Dense(24, activation='relu'),
-    layers.Dense(24, activation='relu'),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(32, activation='relu'),
     layers.Dense(num_actions, activation='linear')
 ])
 
@@ -111,8 +138,16 @@ def receive_logs():
         print(f"Chosen action: {action}")
         logging.info(f"Chosen action: {action}")
 
-        # Execute the chosen action (this is a placeholder, actual execution logic will be added)
-        execute_action(action)
+        # Extract parameters from log data
+        ip_address = log_data.get('ip_address')
+        rate_limit = log_data.get('rate_limit')
+        system_id = log_data.get('system_id')
+        message = log_data.get('message')
+        settings = log_data.get('settings')
+        query = log_data.get('query')
+
+        # Execute the chosen action with dynamic parameters
+        execute_action(action, ip_address=ip_address, rate_limit=rate_limit, system_id=system_id, message=message, settings=settings, query=query)
         logging.info(f"Executed action: {action}")
 
         return jsonify({"status": "success"}), 200
@@ -122,22 +157,20 @@ def receive_logs():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 def convert_log_to_state(log_data):
-    # Extract relevant metrics from log data
-    cpu_usage = log_data.get('cpu_usage', 0)
-    memory_usage = log_data.get('memory_usage', 0)
-    disk_usage = log_data.get('disk_usage', 0)
-    packet_rate = log_data.get('packet_rate', 0)
-    connection_count = log_data.get('connection_count', 0)
-    anomaly_score = log_data.get('anomaly_score', 0)
-    intrusion_alerts = log_data.get('intrusion_alerts', 0)
-    firewall_logs = log_data.get('firewall_logs', 0)
-
     # Create state representation
-    state = np.array([cpu_usage, memory_usage, disk_usage, packet_rate, connection_count, anomaly_score, intrusion_alerts, firewall_logs])
-    state = np.reshape(state, [1, 8])  # Update to match the number of metrics
+    state = []
+    for feature in relevant_features:
+        value = log_data.get(feature, 0)
+        print(f"Feature: {feature}, Value: {value}")
+        state.append(value)
+        print(f"State length after appending {feature}: {len(state)}")
+
+    state = np.array(state)
+    print(f"State before reshaping: {state}, Length: {len(state)}")
+    state = np.reshape(state, [1, 76])  # Update to match the number of metrics
     return state
 
-def execute_action(action):
+def execute_action(action, ip_address=None, rate_limit=None, system_id=None, message=None, settings=None, query=None):
     # Define actions based on the action space
     actions = [
         "block_ip",
@@ -155,14 +188,6 @@ def execute_action(action):
     # Execute the chosen action
     chosen_action = actions[action]
     print(f"Executing action: {chosen_action}")
-
-    # Example IP address and other parameters (these should be derived from the log data or state)
-    ip_address = "192.168.1.1"
-    rate_limit = 100
-    system_id = "system_123"
-    message = "Alert: Potential security breach detected"
-    settings = {"rule": "allow_all"}
-    query = "SELECT * FROM logs WHERE anomaly_score > 0.5"
 
     # Implement the logic to interact with the blue team's infrastructure based on the chosen action
     if chosen_action == "block_ip":
