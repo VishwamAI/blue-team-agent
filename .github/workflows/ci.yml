@@ -33,6 +33,9 @@ jobs:
         sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
         sudo update-alternatives --set python /usr/bin/python3.10
 
+    - name: Verify Python version
+      run: python --version
+
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
