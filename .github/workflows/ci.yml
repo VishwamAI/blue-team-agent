@@ -42,4 +42,6 @@ jobs:
     - name: Run tests
       run: |
         cd tests
+        pip list
+        pwd
         pytest
