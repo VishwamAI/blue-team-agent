@@ -20,9 +20,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build and Test in Docker container
+    - name: Build Docker image
+      run: docker build -t blue-team-agent:latest .
+
+    - name: Run tests in Docker container
       run: |
-        docker build -t blue-team-agent:latest .
         docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "
           python3 --version &&
           pip list &&
