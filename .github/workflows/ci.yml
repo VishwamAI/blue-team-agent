@@ -23,5 +23,10 @@ jobs:
     - name: Build Docker image
       run: docker build -t blue-team-agent:latest .
 
+    - name: Unset environment variables
+      run: |
+        unset pythonLocation
+        unset LD_LIBRARY_PATH
+
     - name: Run tests in Docker container
       run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
