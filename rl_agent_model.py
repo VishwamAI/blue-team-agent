@@ -63,6 +63,10 @@ def train_model():
         target_f = model.predict(state)
         target_f[0][action] = target
         model.fit(state, target_f, epochs=1, verbose=0)
+        print(f"State: {state}")
+        print(f"Target: {target}")
+        print(f"Target_f: {target_f}")
+        print(f"Predictions: {model.predict(state)}")
         print(f"Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
         print(f"Updated weights after training step: {model.get_weights()}")  # Print updated weights
 
