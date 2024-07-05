@@ -29,12 +29,12 @@ jobs:
           pip list &&
           python -c 'import tensorflow as tf; print(tf.__version__)' &&
           [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
-          pytest --maxfail=5 --disable-warnings -v > /app/pytest_output.log
+          pytest --maxfail=5 --disable-warnings -v > pytest_output.log
         "
 
     - name: Check for pytest output log
       run: |
-        if [ -f /app/pytest_output.log ]; then
+        if [ -f pytest_output.log ]; then
           echo "pytest_output.log exists."
         else
           echo "pytest_output.log does not exist."
@@ -42,4 +42,4 @@ jobs:
 
     - name: Print test logs
       run: |
-        cat /app/pytest_output.log || echo "pytest_output.log not found."
+        cat pytest_output.log || echo "pytest_output.log not found."
