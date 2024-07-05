@@ -20,25 +20,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build Docker image
-      run: docker build -t blue-team-agent:latest .
-
-    - name: Check Python version in Docker container
+    - name: Build and Test in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest python3 --version
-
-    - name: Check installed packages in Docker container
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest pip list
-
-    - name: Print working directory in Docker container
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest pwd
-
-    - name: List contents of directory in Docker container
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest ls -la
-
-    - name: Run tests in Docker container
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest pytest
+        docker build -t blue-team-agent:latest .
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "
+          python3 --version &&
+          pip list &&
+          pwd &&
+          ls -la &&
+          pytest
+        "
