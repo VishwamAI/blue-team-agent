@@ -27,7 +27,7 @@ The reward function measures the effectiveness of the actions taken by the RL ag
 - Continuous rewards based on system stability and security posture over time
 
 ## RL Agent Implementation
-The RL agent will be implemented using TensorFlow and OpenAI Gym. The following sections outline the architecture and training process.
+The RL agent will be implemented using TensorFlow and Gymnasium. The following sections outline the architecture and training process.
 
 ### Neural Network Architecture
 The RL agent will use a deep neural network to approximate the optimal policy for selecting actions. The network architecture includes:

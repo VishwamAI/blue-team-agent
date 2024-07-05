@@ -49,33 +49,52 @@ The Blue Team Agent is designed to automate various security tasks, including th
 
 ## Reinforcement Learning Model
 ### Model Components
-- **State Representation**: The current model is set up for the CartPole-v1 environment from OpenAI Gym, which is a test environment. To adapt it for cybersecurity-related data, the state representation needs to be updated to include metrics extracted from log data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, and firewall logs. These metrics provide a comprehensive view of the system's current status and potential security threats.
-- **Action Space**: The current action space is designed for the CartPole-v1 environment. It needs to be modified to reflect possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports.
-- **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is trained using reinforcement learning techniques to improve its decision-making over time.
+- **State Representation**: The state representation includes metrics extracted from log data and preprocessed OTX data, such as CPU usage, memory usage, disk usage, packet rate, connection count, anomaly score, intrusion alerts, firewall logs, and quantified indicators from the OTX data. These metrics provide a comprehensive view of the system's current status and potential security threats. The number of inputs is set to 51.
+- **Action Space**: The action space reflects possible actions a blue team agent might take in response to threats, such as blocking or allowing an IP address, applying rate limiting, isolating a system, sending alerts, running malware scans, changing firewall settings, updating software, searching logs, and generating reports. The `execute_action` function now accepts dynamic parameters, including `ip_address`, `rate_limit`, `system_id`, `message`, `settings`, and `query`, which are derived from the log data.
+- **Neural Network**: A neural network model is used to predict the best action based on the current state. The model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
 
 ### Training Loop
 The main training loop involves the following steps:
 1. **Reset Environment**: The environment is reset to its initial state, ensuring a consistent starting point for each training episode.
-2. **Choose Action**: The agent chooses an action based on the current state using its neural network model. The action is selected to maximize the expected reward.
-3. **Execute Action**: The chosen action is executed, and the environment provides feedback in the form of a reward or penalty.
-4. **Update Model**: The agent updates its model based on the feedback received, adjusting its predictions to improve future performance.
-5. **Repeat**: The loop repeats for a specified number of episodes, with the agent learning and improving over time. The training process continues until the agent achieves satisfactory performance. Note that the current training loop is conceptual and requires implementation with cybersecurity data.
+2. **Preprocess Data**: The OTX data is preprocessed using the `preprocess_otx_data.py` script to extract relevant features and format them into a structured numerical format suitable for training.
+3. **Choose Action**: The agent chooses an action based on the current state using its neural network model. The action is selected to maximize the expected reward.
+4. **Execute Action**: The chosen action is executed, and the environment provides feedback in the form of a reward or penalty.
+5. **Update Model**: The agent updates its model based on the feedback received, adjusting its predictions to improve future performance.
+6. **Repeat**: The loop repeats for a specified number of episodes, with the agent learning and improving over time. The training process continues until the agent achieves satisfactory performance.
+
+The training loop is implemented in the `run_training_loop` function, which runs for a specified number of episodes. It resets the environment, chooses actions, executes them, stores experiences in memory, trains the model, and updates the exploration rate. The model is saved periodically and at the end of training.
+
+The training parameters include:
+- **Discount Factor (gamma)**: 0.99
+- **Exploration Rate (epsilon)**: 1.0 (decays over time)
+- **Minimum Exploration Rate (epsilon_min)**: 0.01
+- **Exploration Decay Rate (epsilon_decay)**: 0.995
+- **Batch Size**: 32
+- **Memory**: Experience replay memory
+
+The neural network model is defined with an input layer, two hidden layers with 128 and 64 neurons respectively, a third hidden layer with 32 neurons, and an output layer with 10 actions. The optimizer and loss function are defined, and the model is compiled.
+
+Results from the training process indicate that the agent's performance improves over time, with the total reward increasing and the exploration rate decreasing as the agent learns to make better decisions based on the feedback received.
 
 ## Usage Instructions
 ### Prerequisites
 - Python 3.x
-- Required Python libraries: Flask, gym, tensorflow, requests, numpy
+- Required Python libraries: Flask, gymnasium, tensorflow, requests, numpy
 
 ### Setup
 1. Install the required Python libraries:
    ```bash
-   pip install Flask gym tensorflow requests numpy
+   pip install -r requirements.txt
    ```
-2. Start the mock server:
+2. Preprocess the OTX data:
+   ```bash
+   python3 preprocess_otx_data.py
+   ```
+3. Start the mock server:
    ```bash
    python3 mock_server.py
    ```
-3. Run the RL agent script:
+4. Run the RL agent script:
    ```bash
    python3 rl_agent_model.py
    ```
@@ -86,14 +105,14 @@ The main training loop involves the following steps:
   - Simulated intrusion attempt detected
 - For each event, the agent processes the log data, converts it into a state, chooses an appropriate action, and executes it.
 - The actions the agent can take include:
-  - Blocking or allowing an IP address
-  - Applying rate limiting
-  - Isolating a system
-  - Sending alerts
-  - Running malware scans
-  - Changing firewall settings
-  - Updating software
-  - Searching logs
+  - Blocking or allowing an IP address (parameter: `ip_address`)
+  - Applying rate limiting (parameter: `rate_limit`)
+  - Isolating a system (parameter: `system_id`)
+  - Sending alerts (parameter: `message`)
+  - Running malware scans (parameter: `system_id`)
+  - Changing firewall settings (parameter: `settings`)
+  - Updating software (parameter: `system_id`)
+  - Searching logs (parameter: `query`)
   - Generating reports
 
 ### Interpreting Output
@@ -114,7 +133,7 @@ The main training loop involves the following steps:
 
 3. **ModuleNotFoundError**:
    - **Symptom**: Missing Python modules when running scripts.
-   - **Solution**: Install the required Python libraries using `pip install Flask gym tensorflow requests numpy`. Double-check the installation paths and Python environment.
+   - **Solution**: Install the required Python libraries using `pip install Flask gymnasium tensorflow requests numpy`. Double-check the installation paths and Python environment.
 
 ### FAQ
 1. **How do I start the Blue Team Agent?**
