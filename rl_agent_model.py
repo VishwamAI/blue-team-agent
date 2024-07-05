@@ -52,6 +52,7 @@ def choose_action(state):
 def train_model():
     if len(memory) < batch_size:
         return
+    print(f"Memory contents: {memory}")  # Print the contents of the memory
     batch = np.random.choice(len(memory), batch_size, replace=False)
     for i in batch:
         state, action, reward, next_state, done = memory[i]
