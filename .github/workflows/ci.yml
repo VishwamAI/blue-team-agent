@@ -32,6 +32,14 @@ jobs:
           pytest --maxfail=5 --disable-warnings -v > pytest_output.log
         "
 
+    - name: Check for pytest output log
+      run: |
+        if [ -f pytest_output.log ]; then
+          echo "pytest_output.log exists."
+        else
+          echo "pytest_output.log does not exist."
+        fi
+
     - name: Print test logs
       run: |
-        cat pytest_output.log
+        cat pytest_output.log || echo "pytest_output.log not found."
