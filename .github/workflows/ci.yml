@@ -26,10 +26,5 @@ jobs:
     - name: Verify Python version and installed packages
       run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "python --version && pip list"
 
-    - name: Set Python environment to Docker container
-      run: |
-        echo "Setting Python environment to Docker container"
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "export PATH=/usr/local/bin/python3.10:$PATH"
-
     - name: Run tests in Docker container
       run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
