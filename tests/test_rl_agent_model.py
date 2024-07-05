@@ -25,15 +25,13 @@ def test_train_model():
     memory.append((state, action, reward, next_state, done))
 
     # Train the model with the mock data
-    train_model()
-
-    # Check if the model's weights have been updated
     initial_weights = model.get_weights()
-    train_model()
+    for _ in range(10):  # Train for multiple steps to ensure weight updates
+        train_model()
     updated_weights = model.get_weights()
 
     for initial, updated in zip(initial_weights, updated_weights):
-        assert not np.array_equal(initial, updated), "Model weights have not been updated after training."
+        assert not np.allclose(initial, updated, atol=1e-5), "Model weights have not been updated after training."
 
 def test_epsilon_decay():
     global epsilon
@@ -51,7 +49,7 @@ def test_target_model_update():
     updated_target_weights = target_model.get_weights()
 
     for initial, updated in zip(initial_target_weights, updated_target_weights):
-        assert np.array_equal(initial, updated), "Target model weights have not been updated after the specified frequency."
+        assert not np.allclose(initial, updated, atol=1e-5), "Target model weights have not been updated after the specified frequency."
 
 def test_memory_replay():
     # Ensure memory is populated
