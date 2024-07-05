@@ -25,10 +25,4 @@ jobs:
 
     - name: Run tests in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "
-          python3 --version &&
-          pip list &&
-          pwd &&
-          ls -la &&
-          pytest
-        "
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
