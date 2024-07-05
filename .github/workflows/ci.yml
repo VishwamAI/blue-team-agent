@@ -28,6 +28,11 @@ jobs:
     - name: Change to repository root directory
       run: cd ${{ github.workspace }}
 
+    - name: Set default Python version
+      run: |
+        sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+        sudo update-alternatives --set python /usr/bin/python3.10
+
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
