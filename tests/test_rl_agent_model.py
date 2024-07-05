@@ -28,6 +28,9 @@ def test_train_model():
     initial_weights = model.get_weights()
     for _ in range(10):  # Train for multiple steps to ensure weight updates
         train_model()
+        target_f = model.predict(state)  # Define target_f within the test function
+        print(f"Train step {_}: Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
+        print(f"Train step {_}: Updated weights: {model.get_weights()}")  # Print updated weights
     updated_weights = model.get_weights()
 
     for initial, updated in zip(initial_weights, updated_weights):
@@ -46,6 +49,7 @@ def test_target_model_update():
     initial_target_weights = target_model.get_weights()
     for _ in range(update_target_frequency):
         train_model()
+        print(f"Train step {_}: Target model weights: {target_model.get_weights()}")  # Print target model weights
     updated_target_weights = target_model.get_weights()
 
     for initial, updated in zip(initial_target_weights, updated_target_weights):
