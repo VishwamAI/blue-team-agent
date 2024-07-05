@@ -16,7 +16,7 @@ num_inputs = env.observation_space.shape[0]
 num_actions = env.action_space.n
 
 model = tf.keras.Sequential([
-    layers.Input(shape=(8,)),
+    layers.Input(shape=(num_inputs,)),
     layers.Dense(24, activation='relu'),
     layers.Dense(24, activation='relu'),
     layers.Dense(256, activation='relu'),
