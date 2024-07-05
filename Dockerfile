@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Set the entry point to run the tests
-ENTRYPOINT ["pytest"]
+ENTRYPOINT ["sh", "-c", "pytest"]
