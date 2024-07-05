@@ -68,13 +68,13 @@ def train_model():
         state = np.reshape(state, [1, num_inputs])
         target_f = model.predict(state)
         target_f[0][action] = target
-        # print(f"Initial weights: {model.get_weights()}")  # Print initial weights
+        print(f"Initial weights: {model.get_weights()}")  # Print initial weights
+        print(f"Target: {target}")
+        print(f"Target_f: {target_f}")
         model.fit(state, target_f, epochs=5, verbose=0)  # Increase epochs to 5
-        # print(f"Target: {target}")
-        # print(f"Target_f: {target_f}")
-        # print(f"Predictions: {model.predict(state)}")
-        # print(f"Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
-        # print(f"Updated weights after training step: {model.get_weights()}")  # Print updated weights
+        print(f"Predictions: {model.predict(state)}")
+        print(f"Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
+        print(f"Updated weights after training step: {model.get_weights()}")  # Print updated weights
 
 # Function to run the main training loop
 def run_training_loop():
