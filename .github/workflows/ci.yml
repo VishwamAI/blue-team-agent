@@ -31,6 +31,14 @@ jobs:
       run: |
         docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "pip list"
 
+    - name: Print working directory in Docker container
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "pwd"
+
+    - name: List contents of directory in Docker container
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "ls -la"
+
     - name: Run tests in Docker container
       run: |
         docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "pytest"
