@@ -16,6 +16,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Pull Python Docker image
+      run: docker pull python:3.10
+
     - name: Build Docker image
       run: docker build -t blue-team-agent:latest .
 
