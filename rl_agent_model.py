@@ -24,7 +24,7 @@ model = tf.keras.Sequential([
 ])
 
 # Define the optimizer and loss function
-optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.01)  # Increased learning rate
 loss_function = tf.keras.losses.MeanSquaredError()
 
 # Compile the model
