@@ -5,4 +5,4 @@ numpy==1.22.0
 pandas
 scikit-learn
 pytest
-tensorflow==2.4.0
+tensorflow==2.8.0
