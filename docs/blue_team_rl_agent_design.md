@@ -31,9 +31,15 @@ The RL agent will be implemented using TensorFlow and OpenAI Gym. The following 
 
 ### Neural Network Architecture
 The RL agent will use a deep neural network to approximate the optimal policy for selecting actions. The network architecture includes:
-- Input layer: Receives the state representation
+- Input layer: Receives the state representation (8-dimensional vector)
 - Hidden layers: Multiple fully connected layers with ReLU activation
 - Output layer: Produces action probabilities or Q-values for each possible action
+
+The updated neural network architecture is as follows:
+- Input layer: `layers.Input(shape=(8,))`
+- Hidden layers: `layers.Dense(24, activation='relu')`, `layers.Dense(24, activation='relu')`
+- Additional hidden layer: `layers.Dense(256, activation='relu')`
+- Output layer: `layers.Dense(num_actions, activation='linear')`
 
 ### Training Process
 The RL agent will be trained using a combination of supervised learning and reinforcement learning techniques:
