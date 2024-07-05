@@ -39,9 +39,7 @@ jobs:
     - name: Verify installed packages
       run: pip list
 
-    - name: Change to tests directory
-      run: cd tests
-
     - name: Run tests
       run: |
+        cd tests
         pytest
