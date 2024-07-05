@@ -32,15 +32,15 @@ jobs:
       run: sudo update-alternatives --install /usr/bin/python python /opt/hostedtoolcache/Python/3.10.12/x64/bin/python3.10 1
 
     - name: Verify Python version
-      run: python --version
+      run: python3 --version
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
 
     - name: Verify installed packages
-      run: python -m pip list
+      run: python3 -m pip list
 
     - name: Print current working directory
       run: pwd
@@ -48,7 +48,7 @@ jobs:
     - name: Run tests
       run: |
         cd tests
-        python -m pip list
+        python3 -m pip list
         pwd
         pytest
 
