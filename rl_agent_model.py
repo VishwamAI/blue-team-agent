@@ -66,7 +66,7 @@ def train_model():
         model.fit(state, target_f, epochs=1, verbose=0)
         updated_weights = model.get_weights()
         for initial, updated in zip(initial_weights, updated_weights):
-            pass  # Removed print statements to reduce output
+            print(f"Initial: {initial}, Updated: {updated}")  # Print weights to check updates
 
 # Function to run the main training loop
 def run_training_loop():
