@@ -72,8 +72,6 @@ def train_model():
         print(f"Target: {target}")
         print(f"Target_f: {target_f}")
         model.fit(state, target_f, epochs=5, verbose=0)  # Increase epochs to 5
-        print(f"Predictions: {model.predict(state)}")
-        print(f"Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
         print(f"Updated weights after training step: {model.get_weights()}")  # Print updated weights
 
 # Function to run the main training loop
