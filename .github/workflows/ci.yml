@@ -39,6 +39,9 @@ jobs:
     - name: Print current working directory
       run: pwd
 
+    - name: Install TensorFlow explicitly
+      run: pip install tensorflow==2.8.0
+
     - name: Run tests
       run: |
         cd tests
