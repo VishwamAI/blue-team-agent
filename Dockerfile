@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install the dependencies
+# Install TensorFlow explicitly
 RUN pip install --upgrade pip
+RUN pip install tensorflow==2.8.0
+
+# Install the dependencies
 RUN pip install -r requirements.txt
 
 # Copy the rest of the application code into the container
