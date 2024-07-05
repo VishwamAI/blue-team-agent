@@ -28,5 +28,5 @@ jobs:
         pip list &&
         python -c 'import tensorflow as tf; print(tf.__version__)' &&
         [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
-        pytest
+        pytest --maxfail=5 --disable-warnings -v
       "
