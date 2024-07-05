@@ -16,17 +16,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Build Docker image
-      run: docker build -t blue-team-agent:latest .
-
-    - name: Verify Python version and installed packages in Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "python --version && pip list"
-
-    - name: Verify TensorFlow installation in Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "python -c 'import tensorflow as tf; print(tf.__version__)'"
-
-    - name: Check if running inside Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "[ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker'"
-
-    - name: Run tests in Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
+    - name: Build Docker image and run tests
+      run: |
+        docker build -t blue-team-agent:latest .
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "
+          python --version &&
+          pip list &&
+          python -c 'import tensorflow as tf; print(tf.__version__)' &&
+          [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
+          pytest
+        "
