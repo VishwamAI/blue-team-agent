@@ -12,9 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    container:
-      image: blue-team-agent:latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -22,10 +19,11 @@ jobs:
     - name: Build Docker image
       run: docker build -t blue-team-agent:latest .
 
-    - name: Verify environment and run tests
-      run: |
+    - name: Run tests in Docker container
+      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "
         python --version &&
         pip list &&
         python -c 'import tensorflow as tf; print(tf.__version__)' &&
         [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
         pytest
+      "
