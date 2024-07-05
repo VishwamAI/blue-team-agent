@@ -27,4 +27,4 @@ jobs:
       run: docker run --rm blue-team-agent:latest python --version
 
     - name: Run tests in Docker container
-      run: docker run --rm blue-team-agent:latest
+      run: docker run --rm blue-team-agent:latest pytest
