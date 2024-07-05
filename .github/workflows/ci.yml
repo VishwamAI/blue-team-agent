@@ -24,4 +24,4 @@ jobs:
       run: docker build -t blue-team-agent:latest .
 
     - name: Run tests in Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest pytest
+      run: docker run --rm -v ${{ github.workspace }}:/app -w /app --entrypoint "" blue-team-agent:latest pytest
