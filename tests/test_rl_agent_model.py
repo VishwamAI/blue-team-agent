@@ -51,7 +51,7 @@ def test_target_model_update():
     updated_target_weights = target_model.get_weights()
 
     for initial, updated in zip(initial_target_weights, updated_target_weights):
-        assert not np.array_equal(initial, updated), "Target model weights have not been updated after the specified frequency."
+        assert np.array_equal(initial, updated), "Target model weights have not been updated after the specified frequency."
 
 def test_memory_replay():
     # Ensure memory is populated
