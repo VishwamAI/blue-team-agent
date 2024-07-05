@@ -28,21 +28,16 @@ jobs:
     - name: Change to repository root directory
       run: cd ${{ github.workspace }}
 
-    - name: Set default Python version
-      run: |
-        sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-        sudo update-alternatives --set python /usr/bin/python3.10
-
     - name: Verify Python version
       run: python --version
 
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
 
     - name: Verify installed packages
-      run: python3 -m pip list
+      run: python -m pip list
 
     - name: Print current working directory
       run: pwd
@@ -50,7 +45,7 @@ jobs:
     - name: Run tests
       run: |
         cd tests
-        python3 -m pip list
+        python -m pip list
         pwd
         pytest
 
