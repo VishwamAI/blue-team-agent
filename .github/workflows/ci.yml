@@ -33,6 +33,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Verify installed packages
+      run: pip list
+
     - name: Change to tests directory
       run: cd tests
 
