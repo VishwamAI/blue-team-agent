@@ -25,19 +25,19 @@ jobs:
 
     - name: Check Python version in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "python3 --version"
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest python3 --version
 
     - name: Check installed packages in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "pip list"
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest pip list
 
     - name: Print working directory in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "pwd"
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest pwd
 
     - name: List contents of directory in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "ls -la"
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest ls -la
 
     - name: Run tests in Docker container
       run: |
