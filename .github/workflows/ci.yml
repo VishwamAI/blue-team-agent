@@ -45,3 +45,7 @@ jobs:
         pip list
         pwd
         pytest
+
+    # Trigger a new CI run
+    - name: Trigger new CI run
+      run: echo "Triggering new CI run"
