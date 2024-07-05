@@ -47,18 +47,21 @@ The RL agent will be trained using a combination of supervised learning and rein
 - Reinforcement learning: Use Q-learning or policy gradient methods to refine the policy through interaction with the environment
 - Experience replay: Store past experiences and sample them randomly during training to improve stability and convergence
 
+### Testing Procedures
+The RL agent will be tested using the following procedures:
+- Unit tests: Verify the functionality of individual components and functions.
+- Integration tests: Ensure that the RL agent integrates correctly with the environment and other system components.
+- Performance tests: Measure the agent's performance in terms of speed, accuracy, and resource usage.
+- Simulated security scenarios: Generate synthetic data and incidents to test the agent's response.
+- Evaluate performance: Measure the agent's effectiveness in detecting and mitigating threats.
+- Iterate and improve: Refine the agent's design and training process based on testing results.
+
 ## Integration with Blue Team Tools
 The RL agent will be integrated with the existing blue team tools to interact with real-time data and make decisions:
 - Logstash: Process and forward log data to the RL agent
 - Elasticsearch: Store and index log data for analysis
 - Kibana: Visualize the actions and decisions made by the RL agent
 - Incident response tools: Execute actions and playbooks based on the agent's decisions
-
-## Testing and Evaluation
-The RL agent will be tested in a controlled environment to ensure it performs as expected:
-- Simulate security scenarios: Generate synthetic data and incidents to test the agent's response
-- Evaluate performance: Measure the agent's effectiveness in detecting and mitigating threats
-- Iterate and improve: Refine the agent's design and training process based on testing results
 
 ## Conclusion
 This design document provides a comprehensive plan for integrating a reinforcement learning agent into the blue team automation system. By leveraging advanced machine learning techniques, the RL agent will enhance the system's ability to detect and respond to security threats, improving overall security posture and resilience.
