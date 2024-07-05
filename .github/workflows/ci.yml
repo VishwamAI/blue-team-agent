@@ -20,38 +20,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
+    - name: Build Docker image
+      run: docker build -t blue-team-agent:latest .
 
-    - name: Change to repository root directory
-      run: cd ${{ github.workspace }}
-
-    - name: Set default Python version
-      run: sudo update-alternatives --install /usr/bin/python python /opt/hostedtoolcache/Python/3.10.12/x64/bin/python3.10 1
-
-    - name: Verify Python version
-      run: python3 --version
-
-    - name: Install dependencies
-      run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install -r requirements.txt
-
-    - name: Verify installed packages
-      run: python3 -m pip list
-
-    - name: Print current working directory
-      run: pwd
-
-    - name: Run tests
-      run: |
-        cd tests
-        python3 -m pip list
-        pwd
-        pytest
-
-    # Trigger a new CI run
-    - name: Trigger new CI run
-      run: echo "Triggering new CI run"
+    - name: Run tests in Docker container
+      run: docker run --rm blue-team-agent:latest
