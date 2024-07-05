@@ -16,9 +16,10 @@ num_inputs = env.observation_space.shape[0]
 num_actions = env.action_space.n
 
 model = tf.keras.Sequential([
-    layers.Input(shape=(num_inputs,)),
+    layers.Input(shape=(8,)),
     layers.Dense(24, activation='relu'),
     layers.Dense(24, activation='relu'),
+    layers.Dense(256, activation='relu'),
     layers.Dense(num_actions, activation='linear')
 ])
 
@@ -36,6 +37,9 @@ epsilon_min = 0.01
 epsilon_decay = 0.995
 batch_size = 32
 memory = []
+target_model = tf.keras.models.clone_model(model)
+target_model.set_weights(model.get_weights())
+update_target_frequency = 5  # Update target model every 5 episodes
 
 # Function to choose an action based on the current state
 def choose_action(state):
@@ -54,7 +58,7 @@ def train_model():
         target = reward
         if not done:
             next_state = np.reshape(next_state, [1, num_inputs])
-            target += gamma * np.amax(model.predict(next_state)[0])
+            target += gamma * np.amax(target_model.predict(next_state)[0])
         state = np.reshape(state, [1, num_inputs])
         target_f = model.predict(state)
         target_f[0][action] = target
@@ -88,6 +92,8 @@ def train_model():
 #         epsilon *= epsilon_decay
 #     if (episode + 1) % save_interval == 0:
 #         model.save(f'rl_agent_model_{episode + 1}.h5')
+#     if (episode + 1) % update_target_frequency == 0:
+#         target_model.set_weights(model.get_weights())
 
 # Save the trained model
 model.save('rl_agent_model.h5')
