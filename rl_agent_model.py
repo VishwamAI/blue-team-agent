@@ -62,7 +62,12 @@ def train_model():
         state = np.reshape(state, [1, num_inputs])
         target_f = model.predict(state)
         target_f[0][action] = target
+        initial_weights = model.get_weights()
         model.fit(state, target_f, epochs=1, verbose=0)
+        updated_weights = model.get_weights()
+        for initial, updated in zip(initial_weights, updated_weights):
+            print(f"Initial weights: {initial}")
+            print(f"Updated weights: {updated}")
 
 # Main training loop (commented out for testing Flask server)
 # num_episodes = 1000
