@@ -69,36 +69,36 @@ def train_model():
             print(f"Initial weights: {initial}")
             print(f"Updated weights: {updated}")
 
-# Main training loop (commented out for testing Flask server)
-# num_episodes = 1000
-# save_interval = 100  # Save the model every 100 episodes
-# for episode in range(num_episodes):
-#     state = env.reset()
-#     state = state[0] if isinstance(state, tuple) else state
-#     print(f"Initial state shape: {state.shape}, state: {state}")
-#     state = np.reshape(state, [1, num_inputs])
-#     total_reward = 0
-#     for time in range(500):
-#         action = choose_action(state)
-#         step_result = env.step(action)
-#         print(f"Step result: {step_result}")
-#         next_state, reward, done, _ = step_result[:4]
-#         next_state = next_state[0] if isinstance(next_state, tuple) else next_state
-#         print(f"Next state shape: {next_state.shape}, next_state: {next_state}")
-#         next_state = np.reshape(next_state, [1, num_inputs])
-#         memory.append((state, action, reward, next_state, done))
-#         state = next_state
-#         total_reward += reward
-#         if done:
-#             print(f"Episode: {episode+1}/{num_episodes}, Score: {total_reward}, Epsilon: {epsilon:.2}")
-#             break
-#         train_model()
-#     if epsilon > epsilon_min:
-#         epsilon *= epsilon_decay
-#     if (episode + 1) % save_interval == 0:
-#         model.save(f'rl_agent_model_{episode + 1}.h5')
-#     if (episode + 1) % update_target_frequency == 0:
-#         target_model.set_weights(model.get_weights())
+# Main training loop
+num_episodes = 1000
+save_interval = 100  # Save the model every 100 episodes
+for episode in range(num_episodes):
+    state = env.reset()
+    state = state[0] if isinstance(state, tuple) else state
+    print(f"Initial state shape: {state.shape}, state: {state}")
+    state = np.reshape(state, [1, num_inputs])
+    total_reward = 0
+    for time in range(500):
+        action = choose_action(state)
+        step_result = env.step(action)
+        print(f"Step result: {step_result}")
+        next_state, reward, done, _ = step_result[:4]
+        next_state = next_state[0] if isinstance(next_state, tuple) else next_state
+        print(f"Next state shape: {next_state.shape}, next_state: {next_state}")
+        next_state = np.reshape(next_state, [1, num_inputs])
+        memory.append((state, action, reward, next_state, done))
+        state = next_state
+        total_reward += reward
+        if done:
+            print(f"Episode: {episode+1}/{num_episodes}, Score: {total_reward}, Epsilon: {epsilon:.2}")
+            break
+        train_model()
+    if epsilon > epsilon_min:
+        epsilon *= epsilon_decay
+    if (episode + 1) % save_interval == 0:
+        model.save(f'rl_agent_model_{episode + 1}.h5')
+    if (episode + 1) % update_target_frequency == 0:
+        target_model.set_weights(model.get_weights())
 
 # Save the trained model
 model.save('rl_agent_model.h5')
