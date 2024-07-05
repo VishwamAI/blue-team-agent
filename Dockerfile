@@ -13,6 +13,3 @@ RUN pip install -r requirements.txt
 
 # Copy the rest of the application code into the container
 COPY . .
-
-# Set the entry point to run the tests
-ENTRYPOINT ["sh", "-c", "pytest"]
