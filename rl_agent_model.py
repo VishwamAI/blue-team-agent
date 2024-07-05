@@ -69,7 +69,7 @@ def train_model():
         target_f = model.predict(state)
         target_f[0][action] = target
         print(f"Initial weights: {model.get_weights()}")  # Print initial weights
-        model.fit(state, target_f, epochs=1, verbose=0)
+        model.fit(state, target_f, epochs=5, verbose=0)  # Increase epochs to 5
         print(f"Target: {target}")
         print(f"Target_f: {target_f}")
         print(f"Predictions: {model.predict(state)}")
