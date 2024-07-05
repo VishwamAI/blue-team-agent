@@ -25,5 +25,8 @@ jobs:
     - name: Verify TensorFlow installation in Docker container
       run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "python -c 'import tensorflow as tf; print(tf.__version__)'"
 
+    - name: Check if running inside Docker container
+      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "[ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker'"
+
     - name: Run tests in Docker container
       run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
