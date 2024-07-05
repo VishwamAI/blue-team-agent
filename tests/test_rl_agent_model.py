@@ -46,12 +46,14 @@ def test_epsilon_decay():
 
 def test_target_model_update():
     initial_target_weights = target_model.get_weights()
-    for _ in range(update_target_frequency):
+    for step in range(update_target_frequency):
         train_model()
-        print(f"Train step {_}: Target model weights: {target_model.get_weights()}")  # Print target model weights
+        print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
     updated_target_weights = target_model.get_weights()
 
     for initial, updated in zip(initial_target_weights, updated_target_weights):
+        print(f"Initial weights: {initial}")
+        print(f"Updated weights: {updated}")
         assert not np.allclose(initial, updated, atol=1e-5), "Target model weights have not been updated after the specified frequency."
 
 def test_memory_replay():
