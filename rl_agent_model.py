@@ -94,6 +94,7 @@ def run_training_loop():
         if (episode + 1) % update_target_frequency == 0:
             target_model.set_weights(model.get_weights())
             print(f"Target model weights updated at episode {episode + 1}")  # Print target model weight update
+            print(f"Target model weights: {target_model.get_weights()}")  # Print target model weights
 
     # Save the trained model
     model.save('rl_agent_model.h5')
