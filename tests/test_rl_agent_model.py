@@ -64,11 +64,3 @@ def test_memory_replay():
         memory.append((state, action, reward, next_state, done))
 
     assert len(memory) >= batch_size, "Memory does not contain enough experiences for replay."
-
-if __name__ == "__main__":
-    test_choose_action()
-    test_train_model()
-    test_epsilon_decay()
-    test_target_model_update()
-    test_memory_replay()
-    print("All tests passed successfully.")
