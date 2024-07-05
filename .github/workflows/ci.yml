@@ -33,9 +33,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Install TensorFlow explicitly
-      run: pip install tensorflow==2.4.0
-
     - name: Verify installed packages
       run: pip list
 
