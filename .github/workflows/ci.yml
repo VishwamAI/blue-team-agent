@@ -23,4 +23,4 @@ jobs:
       run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "python --version && pip list"
 
     - name: Run tests in Docker container
-      run: docker run --rm --entrypoint "" -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
+      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/bash -c "pytest"
