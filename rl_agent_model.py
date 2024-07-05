@@ -17,8 +17,10 @@ num_actions = env.action_space.n
 
 model = tf.keras.Sequential([
     layers.Input(shape=(num_inputs,)),
-    layers.Dense(24, activation='relu'),
-    layers.Dense(24, activation='relu'),
+    layers.Conv2D(32, (8, 8), strides=4, activation='relu'),
+    layers.Conv2D(64, (4, 4), strides=2, activation='relu'),
+    layers.Flatten(),
+    layers.Dense(256, activation='relu'),
     layers.Dense(num_actions, activation='linear')
 ])
 
