@@ -23,10 +23,11 @@ jobs:
       run: docker build -t blue-team-agent:latest .
 
     - name: Run tests in Docker container
-      run: docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/sh -c "
-        python --version &&
-        pip list &&
-        python -c 'import tensorflow as tf; print(tf.__version__)' &&
-        [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
-        pytest --maxfail=5 --disable-warnings -v
-      "
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/sh -c "
+          python --version &&
+          pip list &&
+          python -c 'import tensorflow as tf; print(tf.__version__)' &&
+          [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
+          pytest --maxfail=5 --disable-warnings -v
+        "
