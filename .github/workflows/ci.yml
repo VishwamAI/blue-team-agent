@@ -25,7 +25,7 @@ jobs:
 
     - name: Check Python version in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "python --version"
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "python3 --version"
 
     - name: Check installed packages in Docker container
       run: |
@@ -41,4 +41,4 @@ jobs:
 
     - name: Run tests in Docker container
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app -w /app --entrypoint "" blue-team-agent:latest sh -c "pytest"
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest sh -c "pytest"
