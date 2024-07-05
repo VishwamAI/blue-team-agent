@@ -18,4 +18,4 @@ jobs:
     - name: Run tests
       run: |
         # Add commands to run tests here
-        echo 'No tes
+        echo 'No tests specified'
