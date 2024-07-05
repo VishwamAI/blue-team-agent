@@ -30,22 +30,19 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        python3 -m pip install --upgrade pip
+        python3 -m pip install -r requirements.txt
 
     - name: Verify installed packages
-      run: pip list
+      run: python3 -m pip list
 
     - name: Print current working directory
       run: pwd
 
-    - name: Install TensorFlow explicitly
-      run: pip install tensorflow==2.8.0
-
     - name: Run tests
       run: |
         cd tests
-        pip list
+        python3 -m pip list
         pwd
         pytest
 
