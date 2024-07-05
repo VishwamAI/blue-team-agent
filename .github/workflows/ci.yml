@@ -36,6 +36,9 @@ jobs:
     - name: Verify installed packages
       run: pip list
 
+    - name: Print current working directory
+      run: pwd
+
     - name: Run tests
       run: |
         cd tests
