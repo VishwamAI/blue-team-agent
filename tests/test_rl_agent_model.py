@@ -14,15 +14,14 @@ def test_choose_action():
     assert action in range(num_actions), f"Action {action} is not within the valid range of actions."
 
 def test_train_model():
-    # Create mock data for testing
-    state = np.random.rand(1, num_inputs)
-    next_state = np.random.rand(1, num_inputs)
-    action = np.random.randint(num_actions)
-    reward = np.random.rand()
-    done = np.random.choice([True, False])
-
-    # Add mock data to memory
-    memory.append((state, action, reward, next_state, done))
+    # Create varied mock data for testing
+    for _ in range(batch_size):
+        state = np.random.rand(1, num_inputs)
+        next_state = np.random.rand(1, num_inputs)
+        action = np.random.randint(num_actions)
+        reward = np.random.rand()
+        done = np.random.choice([True, False])
+        memory.append((state, action, reward, next_state, done))
 
     # Train the model with the mock data
     initial_weights = model.get_weights()
