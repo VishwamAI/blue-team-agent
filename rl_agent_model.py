@@ -4,6 +4,9 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from flask import Flask, request, jsonify
 
+# Initialize the training step counter
+training_step_counter = 0  # Initialize the training step counter
+
 # Define the environment
 env = gym.make('CartPole-v1')
 
@@ -70,7 +73,9 @@ def train_model():
         target_f[0][action] = target
         model.fit(state, target_f, epochs=5, verbose=0)
     # Update target model weights at the specified frequency
-    if (len(memory) // batch_size) % update_target_frequency == 0:
+    global training_step_counter
+    training_step_counter += 1
+    if training_step_counter % update_target_frequency == 0:
         target_model.set_weights(model.get_weights())
 
 # Function to run the main training loop
