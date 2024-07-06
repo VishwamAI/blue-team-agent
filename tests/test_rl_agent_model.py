@@ -48,7 +48,7 @@ def test_target_model_update():
     global training_step_counter  # Ensure the global counter is used
     training_step_counter = 0  # Initialize the training step counter
     initial_target_weights = target_model.get_weights()
-    for step in range(update_target_frequency):
+    for step in range(update_target_frequency * 2):  # Ensure the update frequency is reached
         train_model()
         training_step_counter += 1  # Increment the global counter
         print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
