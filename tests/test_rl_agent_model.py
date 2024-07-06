@@ -45,9 +45,11 @@ def test_epsilon_decay():
     assert epsilon >= epsilon_min, "Epsilon decayed below the minimum threshold."
 
 def test_target_model_update():
+    global training_step_counter  # Ensure the global counter is used
     initial_target_weights = target_model.get_weights()
     for step in range(update_target_frequency):
         train_model()
+        training_step_counter += 1  # Increment the global counter
         print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
     updated_target_weights = target_model.get_weights()
 
