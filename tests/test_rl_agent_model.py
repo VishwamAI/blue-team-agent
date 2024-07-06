@@ -50,6 +50,7 @@ def test_target_model_update():
     global training_step_counter  # Ensure the global counter is used
     training_step_counter = 0  # Initialize the training step counter
     # Populate memory with enough samples
+    print("Populating memory with samples")  # Print before memory population
     for i in range(batch_size):
         print(f"Populating memory: Step {i}")  # Print memory population step
         state = np.random.rand(1, num_inputs)
@@ -58,7 +59,9 @@ def test_target_model_update():
         reward = np.random.rand()
         done = np.random.choice([True, False])
         memory.append((state, action, reward, next_state, done))
+    print("Finished populating memory")  # Print after memory population
     initial_target_weights = target_model.get_weights()
+    print("Starting training loop")  # Print before training loop
     for step in range(update_target_frequency * 3):  # Ensure the update frequency is reached
         print(f"Train step {step}: Memory length before training: {len(memory)}")  # Print memory length before training
         print(f"Train step {step}: Entering train_model function.")  # Print entering train_model function
@@ -67,6 +70,7 @@ def test_target_model_update():
         print(f"Train step {step}: Memory length after training: {len(memory)}")  # Print memory length after training
         print(f"Train step {step}: Training step counter: {training_step_counter}")  # Print training step counter
         print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
+    print("Finished training loop")  # Print after training loop
     updated_target_weights = target_model.get_weights()
 
     for initial, updated in zip(initial_target_weights, updated_target_weights):
