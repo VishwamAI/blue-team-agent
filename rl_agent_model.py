@@ -42,7 +42,7 @@ batch_size = 32
 memory = []
 target_model = tf.keras.models.clone_model(model)
 target_model.set_weights(model.get_weights())
-update_target_frequency = 5  # Update target model every 5 episodes
+update_target_frequency = 100  # Update target model every 100 training steps
 
 # Function to choose an action based on the current state
 def choose_action(state):
