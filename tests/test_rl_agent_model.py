@@ -48,7 +48,7 @@ def test_target_model_update():
     global training_step_counter  # Ensure the global counter is used
     training_step_counter = 0  # Initialize the training step counter
     initial_target_weights = target_model.get_weights()
-    for step in range(update_target_frequency * 2):  # Ensure the update frequency is reached
+    for step in range(update_target_frequency * 3):  # Ensure the update frequency is reached
         train_model()
         training_step_counter += 1  # Increment the global counter
         print(f"Train step {step}: Training step counter: {training_step_counter}")  # Print training step counter
@@ -58,7 +58,7 @@ def test_target_model_update():
     for initial, updated in zip(initial_target_weights, updated_target_weights):
         print(f"Initial weights: {initial}")
         print(f"Updated weights: {updated}")
-        assert not np.allclose(initial, updated, atol=1e-4), "Target model weights have not been updated after the specified frequency."
+        assert not np.allclose(initial, updated, atol=1e-3), "Target model weights have not been updated after the specified frequency."
 
 def test_memory_replay():
     # Ensure memory is populated
