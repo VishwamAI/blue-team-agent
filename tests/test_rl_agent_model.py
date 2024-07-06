@@ -48,6 +48,14 @@ def test_epsilon_decay():
 def test_target_model_update():
     global training_step_counter  # Ensure the global counter is used
     training_step_counter = 0  # Initialize the training step counter
+    # Populate memory with enough samples
+    for _ in range(batch_size):
+        state = np.random.rand(1, num_inputs)
+        next_state = np.random.rand(1, num_inputs)
+        action = np.random.randint(num_actions)
+        reward = np.random.rand()
+        done = np.random.choice([True, False])
+        memory.append((state, action, reward, next_state, done))
     initial_target_weights = target_model.get_weights()
     for step in range(update_target_frequency * 3):  # Ensure the update frequency is reached
         train_model()
