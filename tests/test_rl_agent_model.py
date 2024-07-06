@@ -50,7 +50,6 @@ def test_target_model_update():
     initial_target_weights = target_model.get_weights()
     for step in range(update_target_frequency * 3):  # Ensure the update frequency is reached
         train_model()
-        training_step_counter += 1  # Increment the global counter
         print(f"Train step {step}: Training step counter: {training_step_counter}")  # Print training step counter
         print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
     updated_target_weights = target_model.get_weights()
