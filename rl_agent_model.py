@@ -73,7 +73,9 @@ def train_model():
         target_f[0][action] = target
         print(f"Target: {target}")
         print(f"Target_f: {target_f}")
+        print(f"Model weights before fit: {model.get_weights()}")  # Print model weights before fit
         model.fit(state, target_f, epochs=5, verbose=0)
+        print(f"Model weights after fit: {model.get_weights()}")  # Print model weights after fit
         print(f"Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss after each training step
     # Update target model weights at the specified frequency
     global training_step_counter
