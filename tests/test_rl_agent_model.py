@@ -59,7 +59,9 @@ def test_target_model_update():
     initial_target_weights = target_model.get_weights()
     for step in range(update_target_frequency * 3):  # Ensure the update frequency is reached
         print(f"Train step {step}: Memory length before training: {len(memory)}")  # Print memory length before training
+        print(f"Train step {step}: Entering train_model function.")  # Print entering train_model function
         train_model()
+        print(f"Train step {step}: Exiting train_model function.")  # Print exiting train_model function
         print(f"Train step {step}: Memory length after training: {len(memory)}")  # Print memory length after training
         print(f"Train step {step}: Training step counter: {training_step_counter}")  # Print training step counter
         print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
