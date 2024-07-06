@@ -68,6 +68,7 @@ def train_model():
             print(f"Reshaping next state: {next_state}")
             next_state = np.reshape(next_state, [1, num_inputs])
             print(f"Next state reshaped: {next_state}")
+            print(f"Next state shape: {next_state.shape}")  # Print shape of next state
             print(f"Predicting target Q-values for next state: {next_state}")
             print("Before target_model.predict call")  # Print before target_model.predict call
             target_q_values = target_model.predict(next_state)
