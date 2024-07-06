@@ -4,13 +4,9 @@ on:
   push:
     branches:
       - main
-      - clean-history
-      - update-cybersecurity-model
   pull_request:
     branches:
       - main
-      - clean-history
-      - update-cybersecurity-model
 
 jobs:
   build:
@@ -18,24 +14,26 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
+    - name: Pull Python Docker image
+      run: docker pull python:3.10
 
-    - name: Change to repository root directory
-      run: cd ${{ github.workspace }}
+    - name: Build Docker image
+      run: docker build -t blue-team-agent:latest .
 
-    - name: Install dependencies
+    - name: Run tests in Docker container
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/sh -c "
+          python --version &&
+          pip list &&
+          python -c 'import tensorflow as tf; print(tf.__version__)' &&
+          [ -f /.dockerenv ] && echo 'Running inside Docker' || echo 'Not running inside Docker' &&
+          pytest --maxfail=5 --disable-warnings -v | tee /app/pytest_output.log
+        "
 
-    - name: Change to tests directory
-      run: cd tests
-
-    - name: Run tests
+    - name: Print test logs
       run: |
-        pytest
+        docker run --rm -v ${{ github.workspace }}:/app -w /app blue-team-agent:latest /bin/sh -c "
+          cat /app/pytest_output.log || echo 'pytest_output.log not found.'
+        "

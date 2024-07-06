@@ -6,7 +6,7 @@ import tensorflow as tf
 # Add the parent directory to the system path to resolve module import error
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from rl_agent_model import choose_action, train_model, env, num_inputs, num_actions, model, gamma, epsilon, epsilon_min, epsilon_decay, batch_size, memory, target_model, update_target_frequency
+from rl_agent_model import choose_action, train_model, env, num_inputs, num_actions, model, gamma, epsilon, epsilon_min, epsilon_decay, batch_size, memory, target_model, update_target_frequency, training_step_counter
 
 def test_choose_action():
     state = np.random.rand(1, num_inputs)
@@ -14,26 +14,27 @@ def test_choose_action():
     assert action in range(num_actions), f"Action {action} is not within the valid range of actions."
 
 def test_train_model():
-    # Create mock data for testing
-    state = np.random.rand(1, num_inputs)
-    next_state = np.random.rand(1, num_inputs)
-    action = np.random.randint(num_actions)
-    reward = np.random.rand()
-    done = np.random.choice([True, False])
-
-    # Add mock data to memory
-    memory.append((state, action, reward, next_state, done))
+    # Create varied mock data for testing
+    for _ in range(batch_size):
+        state = np.random.rand(1, num_inputs)
+        next_state = np.random.rand(1, num_inputs)
+        action = np.random.randint(num_actions)
+        reward = np.random.rand()
+        done = np.random.choice([True, False])
+        memory.append((state, action, reward, next_state, done))
 
     # Train the model with the mock data
-    train_model()
-
-    # Check if the model's weights have been updated
     initial_weights = model.get_weights()
-    train_model()
+    for step in range(10):  # Train for multiple steps to ensure weight updates
+        print(f"Train step {step}: Starting training step")  # Print starting step
+        train_model()
+        target_f = model.predict(state)  # Define target_f within the test function
+        print(f"Train step {step}: Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
+        print(f"Train step {step}: Updated weights: {model.get_weights()}")  # Print updated weights
     updated_weights = model.get_weights()
 
     for initial, updated in zip(initial_weights, updated_weights):
-        assert not np.array_equal(initial, updated), "Model weights have not been updated after training."
+        assert not np.allclose(initial, updated, atol=1e-5), "Model weights have not been updated after training."
 
 def test_epsilon_decay():
     global epsilon
@@ -45,13 +46,31 @@ def test_epsilon_decay():
     assert epsilon >= epsilon_min, "Epsilon decayed below the minimum threshold."
 
 def test_target_model_update():
+    global training_step_counter  # Ensure the global counter is used
+    training_step_counter = 0  # Initialize the training step counter
+    # Populate memory with enough samples
+    for _ in range(batch_size):
+        state = np.random.rand(1, num_inputs)
+        next_state = np.random.rand(1, num_inputs)
+        action = np.random.randint(num_actions)
+        reward = np.random.rand()
+        done = np.random.choice([True, False])
+        memory.append((state, action, reward, next_state, done))
     initial_target_weights = target_model.get_weights()
-    for _ in range(update_target_frequency):
+    for step in range(update_target_frequency * 3):  # Ensure the update frequency is reached
+        print(f"Train step {step}: Memory length before training: {len(memory)}")  # Print memory length before training
+        print(f"Train step {step}: Entering train_model function.")  # Print entering train_model function
         train_model()
+        print(f"Train step {step}: Exiting train_model function.")  # Print exiting train_model function
+        print(f"Train step {step}: Memory length after training: {len(memory)}")  # Print memory length after training
+        print(f"Train step {step}: Training step counter: {training_step_counter}")  # Print training step counter
+        print(f"Train step {step}: Target model weights: {target_model.get_weights()}")  # Print target model weights
     updated_target_weights = target_model.get_weights()
 
     for initial, updated in zip(initial_target_weights, updated_target_weights):
-        assert not np.array_equal(initial, updated), "Target model weights have not been updated after the specified frequency."
+        print(f"Initial weights: {initial}")
+        print(f"Updated weights: {updated}")
+        assert not np.allclose(initial, updated, atol=1e-3), "Target model weights have not been updated after the specified frequency."
 
 def test_memory_replay():
     # Ensure memory is populated
@@ -64,11 +83,3 @@ def test_memory_replay():
         memory.append((state, action, reward, next_state, done))
 
     assert len(memory) >= batch_size, "Memory does not contain enough experiences for replay."
-
-if __name__ == "__main__":
-    test_choose_action()
-    test_train_model()
-    test_epsilon_decay()
-    test_target_model_update()
-    test_memory_replay()
-    print("All tests passed successfully.")

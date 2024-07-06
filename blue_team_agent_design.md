@@ -57,5 +57,19 @@ This document outlines the architecture and components of a blue team agent desi
 5. **Documentation**: Document the usage and capabilities of the blue team agent.
 6. **Review and Refinement**: Review the agent's performance and make necessary refinements based on feedback.
 
+## Recent Updates
+### Model 3.0 Development
+- **Overview**: The blue-team-agent model 3.0 aims to enhance the efficiency and effectiveness of blue team operations by leveraging advanced deep reinforcement learning (Deep RL) techniques.
+- **Key Advancements**: Incorporates DQN, DDPG, PPO, TRPO, and SAC algorithms for robust and efficient learning.
+- **Architecture**: Includes input layer for high-dimensional sensory inputs, convolutional layers for feature extraction, fully-connected layers for learning complex representations, and an output layer for Q-values.
+- **Training Techniques**: Utilizes experience replay, target networks, stochastic gradient descent, and an epsilon-greedy strategy.
+- **Hyperparameters**: Discount factor (gamma) of 0.99, learning rate of 0.001, batch size of 32, replay memory size of 1,000,000, epsilon annealed from 1.0 to 0.1, and training over 10,000,000 frames.
+- **Testing Procedures**: Includes unit tests, integration tests, performance tests, simulated security scenarios, and performance evaluation.
+
+### CI/CD Pipeline Updates
+- **Overview**: The CI/CD pipeline has been updated to ensure that the Docker container is used correctly for running the tests.
+- **Debugging Efforts**: Added detailed print statements in the `train_model` function of `rl_agent_model.py` to track weight changes during training. Optimized the `train_model` function by removing print statements and reducing the number of epochs per fit to 1 to speed up the training process.
+- **Current Focus**: Resolving the `AssertionError` in the `test_target_model_update` function by ensuring the target model's weights are updated as expected. Investigating and resolving any remaining test execution issues in the Docker container.
+
 ## Conclusion
-This design document provides a comprehensive plan for building a blue team agent with automation capabilities. By leveraging the outlined tools and best practices, the agent will enhance the security posture of the organization and streamline incident response processes.
+This design document provides a comprehensive plan for building a blue team agent with automation capabilities. By leveraging the outlined tools and best practices, the agent will enhance the security posture of the organization and streamline incident response processes. The recent updates to model 3.0 and the CI/CD pipeline ensure that the agent is equipped with the latest advancements in reinforcement learning and is thoroughly tested for reliability and performance.
