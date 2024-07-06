@@ -50,7 +50,8 @@ def test_target_model_update():
     global training_step_counter  # Ensure the global counter is used
     training_step_counter = 0  # Initialize the training step counter
     # Populate memory with enough samples
-    for _ in range(batch_size):
+    for i in range(batch_size):
+        print(f"Populating memory: Step {i}")  # Print memory population step
         state = np.random.rand(1, num_inputs)
         next_state = np.random.rand(1, num_inputs)
         action = np.random.randint(num_actions)
