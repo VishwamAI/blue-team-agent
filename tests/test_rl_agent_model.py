@@ -46,6 +46,7 @@ def test_epsilon_decay():
     assert epsilon >= epsilon_min, "Epsilon decayed below the minimum threshold."
 
 def test_target_model_update():
+    print("Starting test_target_model_update")  # Print at the beginning of the test
     global training_step_counter  # Ensure the global counter is used
     training_step_counter = 0  # Initialize the training step counter
     # Populate memory with enough samples
