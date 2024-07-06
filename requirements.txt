@@ -5,5 +5,5 @@ numpy==1.22.0
 pandas
 scikit-learn
 pytest
-tensorflow==2.8.0
+tensorflow==2.11.1
 protobuf<=3.20.3
