@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+import numpy as np
+from rl_agent_model import choose_action
 
 app = Flask(__name__)
 
@@ -87,6 +89,18 @@ def search_logs():
 @app.route('/api/generate_report', methods=['POST'])
 def generate_report():
     return jsonify({"status": "success", "message": "Security report generated"}), 200
+
+@app.route('/receive_logs', methods=['POST'])
+def receive_logs():
+    data = request.json
+    log_data = data.get('log_data')
+    if log_data:
+        # Process the log data and interact with the RL model
+        state = np.array(log_data['state']).reshape(1, -1)
+        action = choose_action(state)
+        return jsonify({"status": "success", "message": "Log data received and processed", "action": int(action)}), 200
+    else:
+        return jsonify({"status": "error", "message": "Log data not provided"}), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
