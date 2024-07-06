@@ -54,12 +54,15 @@ def choose_action(state):
 # Function to train the model
 def train_model():
     print("Entering train_model function.")
+    print(f"Memory length: {len(memory)}")
     if len(memory) < batch_size:
         print("Not enough memory to train the model.")
         return
     batch = np.random.choice(len(memory), batch_size, replace=False)
+    print(f"Sampled batch indices: {batch}")
     for i in batch:
         state, action, reward, next_state, done = memory[i]
+        print(f"Experience {i}: state={state}, action={action}, reward={reward}, next_state={next_state}, done={done}")
         target = reward
         if not done:
             print(f"Reshaping next state: {next_state}")
@@ -78,12 +81,14 @@ def train_model():
         print(f"Predicted Q-values: {q_values}")
         target_f = q_values
         target_f[0][action] = target
+        print(f"Updated Q-values: {target_f}")
         print(f"Fitting model with state: {state} and target_f: {target_f}")
         model.fit(state, target_f, epochs=1, verbose=0)
         print("Model fit completed.")
     global training_step_counter
+    print(f"Training step counter before increment: {training_step_counter}")
     training_step_counter += 1
-    print(f"Training step counter: {training_step_counter}")
+    print(f"Training step counter after increment: {training_step_counter}")
     if training_step_counter % update_target_frequency == 0:
         print("Updating target model weights")
         target_model.set_weights(model.get_weights())
