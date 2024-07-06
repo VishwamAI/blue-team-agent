@@ -61,13 +61,17 @@ def train_model():
         state, action, reward, next_state, done = memory[i]
         target = reward
         if not done:
+            print(f"Reshaping next state: {next_state}")
             next_state = np.reshape(next_state, [1, num_inputs])
+            print(f"Next state reshaped: {next_state}")
             print(f"Predicting target Q-values for next state: {next_state}")
             target_q_values = target_model.predict(next_state)
             print(f"Predicted target Q-values: {target_q_values}")
             target += gamma * np.amax(target_q_values[0])
             print(f"Updated target value: {target}")
+        print(f"Reshaping current state: {state}")
         state = np.reshape(state, [1, num_inputs])
+        print(f"Current state reshaped: {state}")
         print(f"Predicting Q-values for current state: {state}")
         q_values = model.predict(state)
         print(f"Predicted Q-values: {q_values}")
