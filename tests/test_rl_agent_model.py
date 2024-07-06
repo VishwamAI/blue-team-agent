@@ -25,11 +25,12 @@ def test_train_model():
 
     # Train the model with the mock data
     initial_weights = model.get_weights()
-    for _ in range(10):  # Train for multiple steps to ensure weight updates
+    for step in range(10):  # Train for multiple steps to ensure weight updates
+        print(f"Train step {step}: Starting training step")  # Print starting step
         train_model()
         target_f = model.predict(state)  # Define target_f within the test function
-        print(f"Train step {_}: Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
-        print(f"Train step {_}: Updated weights: {model.get_weights()}")  # Print updated weights
+        print(f"Train step {step}: Loss: {model.evaluate(state, target_f, verbose=0)}")  # Print loss
+        print(f"Train step {step}: Updated weights: {model.get_weights()}")  # Print updated weights
     updated_weights = model.get_weights()
 
     for initial, updated in zip(initial_weights, updated_weights):

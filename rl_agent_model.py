@@ -61,14 +61,19 @@ def train_model():
         target = reward
         if not done:
             next_state = np.reshape(next_state, [1, num_inputs])
+            print(f"Predicting target Q-values for next state: {next_state}")
             target += gamma * np.amax(target_model.predict(next_state)[0])
         state = np.reshape(state, [1, num_inputs])
+        print(f"Predicting Q-values for current state: {state}")
         target_f = model.predict(state)
         target_f[0][action] = target
+        print(f"Fitting model with state: {state} and target_f: {target_f}")
         model.fit(state, target_f, epochs=1, verbose=0)
     global training_step_counter
     training_step_counter += 1
+    print(f"Training step counter: {training_step_counter}")
     if training_step_counter % update_target_frequency == 0:
+        print("Updating target model weights")
         target_model.set_weights(model.get_weights())
 
 # Function to run the main training loop
