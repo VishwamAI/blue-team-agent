@@ -76,6 +76,7 @@ def train_model():
     if training_step_counter % update_target_frequency == 0:
         print("Updating target model weights")
         target_model.set_weights(model.get_weights())
+    print("Completed a training step.")
 
 # Function to run the main training loop
 def run_training_loop():
