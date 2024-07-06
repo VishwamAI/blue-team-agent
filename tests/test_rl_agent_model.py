@@ -57,7 +57,7 @@ def test_target_model_update():
     for initial, updated in zip(initial_target_weights, updated_target_weights):
         print(f"Initial weights: {initial}")
         print(f"Updated weights: {updated}")
-        assert not np.allclose(initial, updated, atol=1e-5), "Target model weights have not been updated after the specified frequency."
+        assert not np.allclose(initial, updated, atol=1e-4), "Target model weights have not been updated after the specified frequency."
 
 def test_memory_replay():
     # Ensure memory is populated
