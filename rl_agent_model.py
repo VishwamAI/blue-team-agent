@@ -66,6 +66,7 @@ def train_model():
             target_q_values = target_model.predict(next_state)
             print(f"Predicted target Q-values: {target_q_values}")
             target += gamma * np.amax(target_q_values[0])
+            print(f"Updated target value: {target}")
         state = np.reshape(state, [1, num_inputs])
         print(f"Predicting Q-values for current state: {state}")
         q_values = model.predict(state)
@@ -81,6 +82,7 @@ def train_model():
     if training_step_counter % update_target_frequency == 0:
         print("Updating target model weights")
         target_model.set_weights(model.get_weights())
+        print("Target model weights updated.")
     print("Completed a training step.")
 
 # Function to run the main training loop
