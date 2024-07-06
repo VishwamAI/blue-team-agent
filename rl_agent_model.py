@@ -82,6 +82,7 @@ def train_model():
         target_f = q_values
         target_f[0][action] = target
         print(f"Updated Q-values: {target_f}")
+        print(f"State shape: {state.shape}, Target_f shape: {target_f.shape}")  # Print shapes of state and target_f
         print(f"Fitting model with state: {state} and target_f: {target_f}")
         model.fit(state, target_f, epochs=1, verbose=0)
         print("Model fit completed.")
