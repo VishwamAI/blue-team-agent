@@ -9,7 +9,7 @@ COPY requirements.txt .
 
 # Install TensorFlow explicitly
 RUN pip install --upgrade pip
-RUN pip install tensorflow==2.8.0
+RUN pip install tensorflow==2.16.2
 
 # Install the dependencies
 RUN pip install -r requirements.txt
