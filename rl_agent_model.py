@@ -75,8 +75,10 @@ def train_model():
     # Update target model weights at the specified frequency
     global training_step_counter
     training_step_counter += 1
+    print(f"Training step counter: {training_step_counter}")  # Print the training step counter
     if training_step_counter % update_target_frequency == 0:
         target_model.set_weights(model.get_weights())
+        print("Target model weights updated.")  # Print when target model weights are updated
 
 # Function to run the main training loop
 def run_training_loop():
