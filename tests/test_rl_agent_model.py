@@ -6,7 +6,7 @@ import tensorflow as tf
 # Add the parent directory to the system path to resolve module import error
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from rl_agent_model import choose_action, train_model, env, num_inputs, num_actions, model, gamma, epsilon, epsilon_min, epsilon_decay, batch_size, memory, target_model, update_target_frequency
+from rl_agent_model import choose_action, train_model, env, num_inputs, num_actions, model, gamma, epsilon, epsilon_min, epsilon_decay, batch_size, memory, target_model, update_target_frequency, training_step_counter
 
 def test_choose_action():
     state = np.random.rand(1, num_inputs)
@@ -46,6 +46,7 @@ def test_epsilon_decay():
 
 def test_target_model_update():
     global training_step_counter  # Ensure the global counter is used
+    training_step_counter = 0  # Initialize the training step counter
     initial_target_weights = target_model.get_weights()
     for step in range(update_target_frequency):
         train_model()
