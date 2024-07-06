@@ -68,8 +68,8 @@ This document outlines the architecture and components of a blue team agent desi
 
 ### CI/CD Pipeline Updates
 - **Overview**: The CI/CD pipeline has been updated to ensure that the Docker container is used correctly for running the tests.
-- **Debugging Efforts**: Added detailed print statements in the `train_model` function of `rl_agent_model.py` to track weight changes during training.
-- **Current Focus**: Resolving the `AssertionError` in the `test_target_model_update` function by ensuring the target model's weights are updated as expected.
+- **Debugging Efforts**: Added detailed print statements in the `train_model` function of `rl_agent_model.py` to track weight changes during training. Optimized the `train_model` function by removing print statements and reducing the number of epochs per fit to 1 to speed up the training process.
+- **Current Focus**: Resolving the `AssertionError` in the `test_target_model_update` function by ensuring the target model's weights are updated as expected. Investigating and resolving any remaining test execution issues in the Docker container.
 
 ## Conclusion
 This design document provides a comprehensive plan for building a blue team agent with automation capabilities. By leveraging the outlined tools and best practices, the agent will enhance the security posture of the organization and streamline incident response processes. The recent updates to model 3.0 and the CI/CD pipeline ensure that the agent is equipped with the latest advancements in reinforcement learning and is thoroughly tested for reliability and performance.
