@@ -53,6 +53,7 @@ def choose_action(state):
 
 # Function to train the model
 def train_model():
+    print("Entering train_model function.")
     if len(memory) < batch_size:
         print("Not enough memory to train the model.")
         return
@@ -87,7 +88,7 @@ def train_model():
         print("Updating target model weights")
         target_model.set_weights(model.get_weights())
         print("Target model weights updated.")
-    print("Completed a training step.")
+    print("Exiting train_model function.")
 
 # Function to run the main training loop
 def run_training_loop():
