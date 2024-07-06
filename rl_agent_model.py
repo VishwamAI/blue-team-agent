@@ -104,14 +104,16 @@ def run_training_loop():
     # Save the trained model
     model.save('rl_agent_model.h5')
 
-# Flask web server to receive log data from Logstash
+# Flask web server to receive log data from Logstash and interact with the RL model
 app = Flask(__name__)
 
 @app.route('/logs', methods=['POST'])
 def receive_logs():
     log_data = request.json
-    # Process the log data (this is a placeholder, actual processing logic will be added)
-    return jsonify({"status": "success"}), 200
+    # Process the log data and make a prediction using the RL model
+    state = np.array(log_data['state']).reshape(1, -1)
+    action = choose_action(state)
+    return jsonify({"status": "success", "action": int(action)}), 200
 
 if __name__ == '__main__':
     run_training_loop()
