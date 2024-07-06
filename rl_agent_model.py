@@ -63,11 +63,14 @@ def train_model():
         if not done:
             next_state = np.reshape(next_state, [1, num_inputs])
             print(f"Predicting target Q-values for next state: {next_state}")
-            target += gamma * np.amax(target_model.predict(next_state)[0])
+            target_q_values = target_model.predict(next_state)
+            print(f"Predicted target Q-values: {target_q_values}")
+            target += gamma * np.amax(target_q_values[0])
         state = np.reshape(state, [1, num_inputs])
         print(f"Predicting Q-values for current state: {state}")
-        target_f = model.predict(state)
-        print(f"Predicted Q-values: {target_f}")
+        q_values = model.predict(state)
+        print(f"Predicted Q-values: {q_values}")
+        target_f = q_values
         target_f[0][action] = target
         print(f"Fitting model with state: {state} and target_f: {target_f}")
         model.fit(state, target_f, epochs=1, verbose=0)
