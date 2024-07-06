@@ -67,9 +67,11 @@ def train_model():
         state = np.reshape(state, [1, num_inputs])
         print(f"Predicting Q-values for current state: {state}")
         target_f = model.predict(state)
+        print(f"Predicted Q-values: {target_f}")
         target_f[0][action] = target
         print(f"Fitting model with state: {state} and target_f: {target_f}")
         model.fit(state, target_f, epochs=1, verbose=0)
+        print("Model fit completed.")
     global training_step_counter
     training_step_counter += 1
     print(f"Training step counter: {training_step_counter}")
