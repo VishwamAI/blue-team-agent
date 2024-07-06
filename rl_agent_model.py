@@ -54,6 +54,7 @@ def choose_action(state):
 # Function to train the model
 def train_model():
     if len(memory) < batch_size:
+        print("Not enough memory to train the model.")
         return
     batch = np.random.choice(len(memory), batch_size, replace=False)
     for i in batch:
