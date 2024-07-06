@@ -84,7 +84,9 @@ def train_model():
         print(f"Updated Q-values: {target_f}")
         print(f"State shape: {state.shape}, Target_f shape: {target_f.shape}")  # Print shapes of state and target_f
         print(f"Fitting model with state: {state} and target_f: {target_f}")
+        print("Before model.fit call")  # Print before model.fit call
         model.fit(state, target_f, epochs=1, verbose=0)
+        print("After model.fit call")  # Print after model.fit call
         print("Model fit completed.")
     global training_step_counter
     print(f"Training step counter before increment: {training_step_counter}")
